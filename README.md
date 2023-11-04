@@ -2,6 +2,6 @@
 
 A convenient software development reference and tool
 
-For definitions to include in an application, see [JavaScript code](./code/js/names/).
+For the definitions to include in an application, see [JavaScript code](./code/js/names/).
 
-[Application](https://SAKryukov.GitHub.io/colors-names-js-wpf/code/js) under development&hellip;
+[The application](https://SAKryukov.GitHub.io/colors-names-js-wpf/code/js) under development&hellip;
