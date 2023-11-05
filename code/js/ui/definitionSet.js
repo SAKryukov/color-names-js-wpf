@@ -4,7 +4,7 @@ const definitionSet = {
 
      metadata: {
         version: "0.1.0 ",
-       copyright: "2023 by Sergey A Kryukov",
+       copyright: "Sergey A Kryukov, 2023",
     },
 
     columns: 8,

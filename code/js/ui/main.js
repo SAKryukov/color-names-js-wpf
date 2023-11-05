@@ -3,6 +3,8 @@
 window.onload = () => {
 
     const elements = getElements();
+    elements.metadata.copyright.textContent = definitionSet.metadata.copyright;
+    elements.metadata.version.textContent = definitionSet.metadata.version;
     const cssColorMapMetadata = { source: cssColorNames, map: new Map(), isRemapped: false };
     const wpfColorMapMetadata = { source: wpfColorNames, map: new Map(), isRemapped: false };
 
@@ -36,7 +38,6 @@ window.onload = () => {
         if (doSelect) {
             cell.classList.add(definitionSet.selectionIndicator);
             const rgb = conversionSet.parseToRgb(currentColorMapMetadata.map.get(cell.title).color);
-            const interm = conversionSet.rgbToHsv(rgb[0], rgb[1], rgb[2]);
             const hsv = conversionSet.hsToString(conversionSet.rgbToHsv(rgb[0], rgb[1], rgb[2]));
             const hsl = conversionSet.hsToString(conversionSet.rgbToHsl(rgb[0], rgb[1], rgb[2]));
             elements.colorResult.value =
@@ -48,6 +49,11 @@ window.onload = () => {
                 );
         } else
             cell.classList.remove(definitionSet.selectionIndicator);
+        const color = currentColorMapMetadata.map.get(cell.title).color;
+        if (elements.navigationBehavior.background.checked)
+            elements.sample.style.backgroundColor = color;
+        if (elements.navigationBehavior.foreground.checked)
+            elements.sample.style.color = color;            
     }; //select
 
     elements.table.onkeydown = event => {
@@ -125,6 +131,14 @@ window.onload = () => {
                 select(event.target, true);
                 currentCell = event.target;
             }; //cell.onpointerdown
+            cell.onpointerup = event => {
+                if (!event.ctrlKey) return;
+                const color = currentColorMapMetadata.map.get(currentCell.title).color;
+                if (event.shiftKey)
+                    elements.sample.style.color = color;
+                else
+                    elements.sample.style.backgroundColor = color;        
+            }; //cell.onpointerup
             const cellContent = document.createElement("div");
             const label = document.createElement("span");
             label.textContent = color;
