@@ -33,9 +33,11 @@
             td > div *, td > div { vertical-align: middle; pointer-events: none; }
             td > div > div { width: 1em; height: 1em; display: inline-block; border: solid thin black; }
             td > div > span { margin-left: var(--margin-X-small); }
-            footer input {
+            footer p { display: flex; flex-flow: row; }
+            footer p input {
+                flex-grow: 1;
+                margin-left: var(--margin-X-small); font-size: 100%;
                 border: none; background-color:  transparent; padding-left: var(--margin-X-small);
-                font-size: 100%;
             }
         </style>
     </head>
@@ -52,6 +54,6 @@
             <table>                
             </table>
         </main>
-        <footer>Color: <input></input></footer>
+        <footer><p>Color: <input></input></p></footer>
     </body>
 </html>
