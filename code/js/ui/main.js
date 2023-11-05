@@ -3,10 +3,8 @@
 window.onload = () => {
 
     const elements = getElements();
-    const cssColorMap = new Map();
-    const wpfColorMap = new Map();
-    const cssColorMapMetadata = { source: cssColorNames, map: cssColorMap, isRemapped: false };
-    const wpfColorMapMetadata = { source: wpfColorNames, map: wpfColorMap, isRemapped: false };
+    const cssColorMapMetadata = { source: cssColorNames, map: new Map(), isRemapped: false };
+    const wpfColorMapMetadata = { source: wpfColorNames, map: new Map(), isRemapped: false };
 
     const remap = colorMapMetadata => {
         if (colorMapMetadata.isRemapped) return;
