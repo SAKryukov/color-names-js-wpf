@@ -2,8 +2,8 @@
 
 (() => {
 
-    const rgbToHsv = (r, g, b) => { //https://gist.github.com/mjackson/5311256
-        r /= 255, g /= 255, b /= 255;
+    const rgbToHsv = (r, g, b, a) => { //https://gist.github.com/mjackson/5311256
+        a /= 255, r /= 255, g /= 255, b /= 255;
         let max = Math.max(r, g, b), min = Math.min(r, g, b);
         let h, s, v = max;
         let d = max - min;
@@ -18,11 +18,11 @@
             }
             h /= 6;
         }
-        return [h, s, v];
+        return [h, s, v, a];
     }; //rgbToHsv
 
-    const rgbToHsl = (r, g, b) => { //https://gist.github.com/mjackson/5311256
-        r /= 255, g /= 255, b /= 255;     
+    const rgbToHsl = (r, g, b, a) => { //https://gist.github.com/mjackson/5311256
+        a /= 255, r /= 255, g /= 255, b /= 255;
         let max = Math.max(r, g, b), min = Math.min(r, g, b);
         let h, s, l = (max + min) / 2;
         if (max == min) {
@@ -37,14 +37,17 @@
           }
           h /= 6;
         }
-        return [h, s, l];
+        return [h, s, l, a];
       }; //rgbToHsl
 
+    const normalize = (value, scale) => (value * scale).toFixed(definitionSet.colorSpace.fixedPrecision);
+
     const hsToString = value =>
-        definitionSet.formatHs(
-            360*value[0].toPrecision(definitionSet.colorSpacePrecision),
-            100*value[1].toPrecision(definitionSet.colorSpacePrecision),
-            100*value[2].toPrecision(definitionSet.colorSpacePrecision));
+        definitionSet.colorSpace.formatHs(
+            normalize(value[0], 360),
+            normalize(value[1], 100),
+            normalize(value[2], 100),
+            normalize(value[3], 100));
 
     conversionSet.rgbToHsv = rgbToHsv;
     conversionSet.rgbToHsl = rgbToHsl;

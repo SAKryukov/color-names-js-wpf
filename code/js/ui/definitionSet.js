@@ -3,21 +3,27 @@
 const definitionSet = {
 
      metadata: {
-        version: "0.1.1",
+        version: "0.1.2",
        copyright: "Sergey A Kryukov, 2023",
     },
 
-    columns: 8,
-    colorSpacePrecision: 2,
-    cssColorRegexp: /([0-9]{0,3}(,|\)))/g,
-    hex: 16,
-    colorComponentHexSize: 2,
-    colorComponentHexPad: "0",
-    joinHexArray: data => `#${data.join("")}`,
-    formatColor: (name, hex, rgb, hsv, hsl) =>
-        `${name}: ${hex.toUpperCase()}, rgb(${rgb}), hsv(${hsv}), hsl(${hsl})`,
-    formatHs: (h, s, value) =>
-        `${h}deg ${s}% ${value}%`,
+    colorSpace: {
+        fixedPrecision: 0,
+        cssColorRegexp: /([0-9]{0,3}(,|\)))/g,
+        colorComponentHexSize: 2,
+        colorComponentHexPad: "0",
+        hex: 16,
+        joinHexArray: data => `#${data.join("")}`,
+        specialRgbaOpacity: opacity => `/${opacity*100/0xff}%`,
+        formatRgba: color =>
+            color.join(" "),
+        formatColor: (name, hex, rgb, hsl) =>
+        `${name}: ${hex.toUpperCase()}, rgb(${rgb}), hsl(${hsl})`,
+        formatHs: (h, s, value, a) =>
+        `${h}, ${s}%, ${value}%, ${a}%`,
+    },
+
+    columns: 8,   
     selectionIndicator: "selected",
 
     keyboard: {

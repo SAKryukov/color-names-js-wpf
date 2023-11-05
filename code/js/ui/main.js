@@ -2,6 +2,8 @@
 
 window.onload = () => {
 
+    //let value = 100*0.5699999999999999;
+    //value = value.toPrecision(2);
     const elements = getElements();
     elements.metadata.copyright.textContent = definitionSet.metadata.copyright;
     elements.metadata.version.textContent = definitionSet.metadata.version;
@@ -37,15 +39,15 @@ window.onload = () => {
         if (!cell) return;
         if (doSelect) {
             cell.classList.add(definitionSet.selectionIndicator);
-            const rgb = conversionSet.parseToRgb(currentColorMapMetadata.map.get(cell.title).color);
-            const hsv = conversionSet.hsToString(conversionSet.rgbToHsv(rgb[0], rgb[1], rgb[2]));
-            const hsl = conversionSet.hsToString(conversionSet.rgbToHsl(rgb[0], rgb[1], rgb[2]));
+            const rgba = conversionSet.parseToRgba(currentColorMapMetadata.map.get(cell.title).color);
+            const hsl = conversionSet.hsToString(conversionSet.rgbToHsl(rgba[0], rgba[1], rgba[2], rgba[3]));
+            rgba[3] = definitionSet.colorSpace.specialRgbaOpacity(rgba[3]);
             elements.colorResult.value =
-                definitionSet.formatColor(
+                definitionSet.colorSpace.formatColor(
                     cell.title,
-                    conversionSet.parseToRgbHex(currentColorMapMetadata.map.get(cell.title).color),
-                    rgb.toString(),
-                    hsv, hsl
+                    conversionSet.parseToRgbaHex(currentColorMapMetadata.map.get(cell.title).color),
+                    definitionSet.colorSpace.formatRgba(rgba),
+                    hsl
                 );
         } else
             cell.classList.remove(definitionSet.selectionIndicator);
