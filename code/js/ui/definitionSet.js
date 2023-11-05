@@ -1,7 +1,12 @@
 "use strict";
 
 const definitionSet = {
-    
+
+     metadata: {
+        version: "0.1.0 ",
+       copyright: "2023 by Sergey A Kryukov",
+    },
+
     columns: 8,
     cssColorRegexp: /([0-9]{0,3}(,|\)))/g,
     hex: 16,
