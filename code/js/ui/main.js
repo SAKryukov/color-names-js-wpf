@@ -32,30 +32,6 @@ window.onload = () => {
         elements.radio.wpf.onchange = event => dataSourceHandler(event, wpfColorMapMetadata);
     })();
 
-    const parseToRgb = cssColor => {
-        const expression = /([0-9]{0,3}(,|\)))/g;
-        const result = [];
-        let match;
-        do {
-            match = expression.exec(cssColor);
-            if (match)
-                result.push(parseInt(match[0]));
-        } while (match);
-        return result;
-    }; //parseToRgb
-
-    const parseToRgbHex = cssColor => {
-        const size = 2;
-        const colors = parseToRgb(cssColor);
-        const result = [];
-        for (let color of colors) {
-            let text = "0".repeat(size) + color.toString(16);
-            text = text.slice(text.length - size);
-            result.push(text);
-        }
-        return `#${result[0]}${result[1]}${result[2]}${result.length > 3 ? result[3] : ""}`;
-    }; //parseToRgbHex
-
     const populate = colorMapMetadata => {
         const source = colorMapMetadata.source;
         const mapIt = colorMapMetadata.map.size < 1;
@@ -64,14 +40,18 @@ window.onload = () => {
         const tableHead = elements.table.createTHead();
         const headRow = tableHead.insertRow();
         const headCell = headRow.insertCell();
-        headCell.textContent = `Number of names: ${source.length}`;
+        headCell.textContent = definitionSet.dataLength(source.length);
         const tableBody = elements.table.createTBody();
         for (let color of source) {
             const row = document.createElement("tr");
             const cell = row.insertCell();
             cell.title = color;
             cell.onpointerdown = event =>
-                alert(`${parseToRgbHex(colorMapMetadata.map.get(event.target.title).color)}`);
+                elements.colorResult.textContent = 
+                    definitionSet.formatColor(
+                        event.target.title,
+                        conversionSet.parseToRgbHex(colorMapMetadata.map.get(event.target.title).color)
+                    );
             const cellContent = document.createElement("div");
             const label = document.createElement("span");
             label.textContent = color;
