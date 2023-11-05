@@ -54,18 +54,18 @@ window.onload = () => {
             select(currentCell, false);
             currentCell = newRow.cells[xIndex];
             select(currentCell, true);
-        };
+        }; //moveUp
         const moveDown = () => {
             const xIndex = currentCell.cellIndex;
             const currentRow = currentCell.parentElement;
             const yIndex = currentRow.rowIndex;
             if (yIndex >= tableBody.rows.length - 1) return;
             const newRow = tableBody.rows[yIndex + 1];
-            if (xIndex >= newRow.cells.length - 1) return;
+            if (xIndex >= newRow.cells.length) return;
             select(currentCell, false);
             currentCell = newRow.cells[xIndex];
             select(currentCell, true);
-        };
+        }; //moveDown
         const moveLeft = () => {
             const xIndex = currentCell.cellIndex;
             const currentRow = currentCell.parentElement;
@@ -73,7 +73,7 @@ window.onload = () => {
             select(currentCell, false);
             currentCell = currentRow.cells[xIndex - 1];
             select(currentCell, true);
-        };
+        }; //moveLeft
         const moveRight = () => {
             const xIndex = currentCell.cellIndex;
             const currentRow = currentCell.parentElement;
@@ -81,7 +81,7 @@ window.onload = () => {
             select(currentCell, false);
             currentCell = currentRow.cells[xIndex + 1];
             select(currentCell, true);
-        };
+        }; //moveRight
         switch (event.key) {
             case definitionSet.keyboard.left:
                 moveLeft();
@@ -133,6 +133,7 @@ window.onload = () => {
             if (row.rowIndex == 0 && cell.cellIndex == 0)
                 currentCell = cell;
         } //loop   
+        select(currentCell, true);
     }; //populate
     populate(cssColorMapMetadata);
 
