@@ -3,14 +3,13 @@
 const getElements = () => {
 
     const elementSet = {
-        main: document.querySelector("main"),
         table: document.querySelector("main table"),
         radio: {
-            css: document.querySelector("header input:first-of-type"),
-            wpf: document.querySelector("header input:last-of-type"),
+            css: document.querySelector("header input[type=radio]:first-of-type"),
+            wpf: document.querySelector("header input[type=radio]:last-of-type"),
         },
+        colorCountIndicator: document.querySelector("header span"),
         colorResult: document.querySelector("header p:last-of-type input"),
-        colorCountIndicator: document.querySelector("header > p:nth-of-type(3) > span"),
         sample: document.querySelector("main > section"),
         metadata: {
             copyright: document.querySelector("footer span:first-of-type"),

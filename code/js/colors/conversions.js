@@ -42,9 +42,9 @@
 
     const hsToString = value =>
         definitionSet.formatHs(
-            value[0].toPrecision(definitionSet.colorSpacePrecision),
-            value[1].toPrecision(definitionSet.colorSpacePrecision),
-            value[2].toPrecision(definitionSet.colorSpacePrecision));
+            360*value[0].toPrecision(definitionSet.colorSpacePrecision),
+            100*value[1].toPrecision(definitionSet.colorSpacePrecision),
+            100*value[2].toPrecision(definitionSet.colorSpacePrecision));
 
     conversionSet.rgbToHsv = rgbToHsv;
     conversionSet.rgbToHsl = rgbToHsl;
