@@ -23,25 +23,35 @@
             footer { background-color: beige; }
             header, footer, main { padding: var(--padding); }
             input[type=radio]:last-of-type { margin-left: var(--deltaX); }
-            header > p:last-of-type { margin-top: var(--margin-Y); }
+            header > p:not(first-of-type) { margin-top: var(--margin-Y); }
             /* cell */
+            td {
+                padding-left: var(--margin-X-small); padding-right: var(--margin-X-small);
+                white-space: nowrap;
+            }
+            td.selected { outline: 3px dotted crimson; outline-offset: -3; }
             td > div *, td > div { vertical-align: middle; pointer-events: none; }
             td > div > div { width: 1em; height: 1em; display: inline-block; border: solid thin black; }
             td > div > span { margin-left: var(--margin-X-small); }
+            footer input {
+                border: none; background-color:  transparent; padding-left: var(--margin-X-small);
+                font-size: 100%;
+            }
         </style>
     </head>
     <body>
         <header>
-            <p>To do: sorting by name, R, G, B, H, S, V, L pairs&hellip; navigation, search, sampling, clipboard, 3D&hellip;</p>
+            <p>To do: sorting by name, R, G, B, H, S, V, L pairs&hellip; search, sampling, clipboard, 3D&hellip;</p>
             <p>
                 <input type="radio" name="naming-source" checked="true">&thinsp;CSS</input>
                 <input type="radio" name="naming-source">&thinsp;WPF</input>
             </p>
+            <p>Number of names: <span></span></p>
         </header>
         <main>
             <table>                
             </table>
         </main>
-        <footer>Color: <span></span></footer>
+        <footer>Color: <input></input></footer>
     </body>
 </html>

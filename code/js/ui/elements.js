@@ -9,7 +9,8 @@ const getElements = () => {
             css: document.querySelector("header input:first-of-type"),
             wpf: document.querySelector("header input:last-of-type"),
         },
-        colorResult: document.querySelector("footer span"),
+        colorResult: document.querySelector("footer input"),
+        colorCountIndicator: document.querySelector("header > p:last-of-type > span"),
     } //elementSet
 
     Object.freeze(elementSet);

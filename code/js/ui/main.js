@@ -32,26 +32,95 @@ window.onload = () => {
         elements.radio.wpf.onchange = event => dataSourceHandler(event, wpfColorMapMetadata);
     })();
 
+    let currentCell, tableBody, currentColorMapMetadata;
+    const select = (cell, doSelect) => {
+        if (!cell) return;
+        if (doSelect) {
+            cell.classList.add(definitionSet.selectionIndicator);
+            elements.colorResult.value =
+                definitionSet.formatColor(
+                    cell.title,
+                    conversionSet.parseToRgbHex(currentColorMapMetadata.map.get(cell.title).color)
+                );
+        } else
+            cell.classList.remove(definitionSet.selectionIndicator);
+    }; //select
+
+    elements.table.onkeydown = event => {
+        const moveUp = () => {
+            const xIndex = currentCell.cellIndex;
+            const currentRow = currentCell.parentElement;
+            const yIndex = currentRow.rowIndex;
+            if (yIndex < 1) return;
+            const newRow = tableBody.rows[yIndex - 1];
+            select(currentCell, false);
+            currentCell = newRow.cells[xIndex];
+            select(currentCell, true);
+        };
+        const moveDown = () => {
+            const xIndex = currentCell.cellIndex;
+            const currentRow = currentCell.parentElement;
+            const yIndex = currentRow.rowIndex;
+            if (yIndex >= tableBody.rows.length - 1) return;
+            const newRow = tableBody.rows[yIndex + 1];
+            if (xIndex >= newRow.cells.length - 1) return;
+            select(currentCell, false);
+            currentCell = newRow.cells[xIndex];
+            select(currentCell, true);
+        };
+        const moveLeft = () => {
+            const xIndex = currentCell.cellIndex;
+            const currentRow = currentCell.parentElement;
+            if (xIndex < 1) return;
+            select(currentCell, false);
+            currentCell = currentRow.cells[xIndex - 1];
+            select(currentCell, true);
+        };
+        const moveRight = () => {
+            const xIndex = currentCell.cellIndex;
+            const currentRow = currentCell.parentElement;
+            if (xIndex >= currentRow.childNodes.length - 1) return;
+            select(currentCell, false);
+            currentCell = currentRow.cells[xIndex + 1];
+            select(currentCell, true);
+        };
+        switch (event.key) {
+            case definitionSet.keyboard.left:
+                moveLeft();
+                break;
+            case definitionSet.keyboard.right:
+                moveRight();
+                break;
+            case definitionSet.keyboard.up:
+                moveUp();
+                break;
+            case definitionSet.keyboard.down:
+                moveDown();
+                break;
+            default: return;
+        } //switch
+    } //elements.table.onkeydown
+
     const populate = colorMapMetadata => {
+        select(currentCell, true);
+        currentColorMapMetadata = colorMapMetadata;
         const source = colorMapMetadata.source;
         const mapIt = colorMapMetadata.map.size < 1;
         while (elements.table.firstChild)
             elements.table.removeChild(elements.table.firstChild);
-        const tableHead = elements.table.createTHead();
-        const headRow = tableHead.insertRow();
-        const headCell = headRow.insertCell();
-        headCell.textContent = definitionSet.dataLength(source.length);
-        const tableBody = elements.table.createTBody();
+        elements.colorCountIndicator.textContent = source.length;
+        tableBody = elements.table.createTBody();
+        let row = document.createElement("tr");
         for (let color of source) {
-            const row = document.createElement("tr");
+            if (row.childNodes.length >= definitionSet.columns)
+                row = document.createElement("tr");
             const cell = row.insertCell();
             cell.title = color;
-            cell.onpointerdown = event =>
-                elements.colorResult.textContent = 
-                    definitionSet.formatColor(
-                        event.target.title,
-                        conversionSet.parseToRgbHex(colorMapMetadata.map.get(event.target.title).color)
-                    );
+            cell.onpointerdown = event => {
+                select(currentCell, false);
+                select(event.target, true);
+                currentCell = event.target;
+            }; //cell.onpointerdown
             const cellContent = document.createElement("div");
             const label = document.createElement("span");
             label.textContent = color;
@@ -63,6 +132,8 @@ window.onload = () => {
             cellContent.appendChild(label);
             cell.appendChild(cellContent);
             tableBody.appendChild(row);
+            if (row.rowIndex == 0 && cell.cellIndex == 0)
+                currentCell = cell;
         } //loop   
     }; //populate
     populate(cssColorMapMetadata);
@@ -71,6 +142,7 @@ window.onload = () => {
     const focusPromise = new Promise(resolve => resolve(elements.table));
     focusPromise.then(element => {
         remap(cssColorMapMetadata);
+        select(currentCell, true);
         element?.focus();
     });
 
