@@ -3,6 +3,7 @@
     <head>
         <title>Color Names</title>
         <script src="names/wpf.js"></script>
+        <script src="names/css.js"></script>
         <script src="ui/elements.js"></script>
         <script src="ui/main.js"></script>
         <style>
@@ -17,14 +18,21 @@
             main { background-color: beige; }
             footer { background-color: aqua; }
             table { background-color: white; }
+            input[type=radio] { margin-left: 2em; }
             /* cell */
-            td > div * { vertical-align: middle; }
+            td > div *, td > div { vertical-align: middle; pointer-events: none; }
             td > div > div { width: 1em; height: 1em; display: inline-block; border: solid thin black; }
             td > div > span { margin-left: 0.2em; }
         </style>
     </head>
     <body>
-        <header>header</header>
+        <header>
+            <p>To do: sorting by name, R, G, B, H, S, V, L pairs&hellip; navigation, search, sampling, CSS vs WPF&hellip;</p>
+            <p>
+                <input type="radio" name="naming-source" checked="true">CSS</input>
+                <input type="radio" name="naming-source">WPF</input>
+            </p>
+        </header>
         <main>
             <table>                
             </table>
