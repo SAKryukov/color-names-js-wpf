@@ -35,10 +35,16 @@ window.onload = () => {
         if (!cell) return;
         if (doSelect) {
             cell.classList.add(definitionSet.selectionIndicator);
+            const rgb = conversionSet.parseToRgb(currentColorMapMetadata.map.get(cell.title).color);
+            const interm = conversionSet.rgbToHsv(rgb[0], rgb[1], rgb[2]);
+            const hsv = conversionSet.hsToString(conversionSet.rgbToHsv(rgb[0], rgb[1], rgb[2]));
+            const hsl = conversionSet.hsToString(conversionSet.rgbToHsl(rgb[0], rgb[1], rgb[2]));
             elements.colorResult.value =
                 definitionSet.formatColor(
                     cell.title,
-                    conversionSet.parseToRgbHex(currentColorMapMetadata.map.get(cell.title).color)
+                    conversionSet.parseToRgbHex(currentColorMapMetadata.map.get(cell.title).color),
+                    rgb.toString(),
+                    hsv, hsl
                 );
         } else
             cell.classList.remove(definitionSet.selectionIndicator);

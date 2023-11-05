@@ -8,12 +8,16 @@ const definitionSet = {
     },
 
     columns: 8,
+    colorSpacePrecision: 2,
     cssColorRegexp: /([0-9]{0,3}(,|\)))/g,
     hex: 16,
     colorComponentHexSize: 2,
     colorComponentHexPad: "0",
     joinHexArray: data => `#${data.join("")}`,
-    formatColor: (name, hex) => `${name}: ${hex.toUpperCase()}`,
+    formatColor: (name, hex, rgb, hsv, hsl) =>
+        `${name}: ${hex.toUpperCase()}, rgb(${rgb}), hsv(${hsv}), hsl(${hsl})`,
+    formatHs: (h, s, value) =>
+        `${h}deg ${s}% ${value}%`,
     selectionIndicator: "selected",
 
     keyboard: {

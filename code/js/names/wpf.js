@@ -17,7 +17,7 @@ const wpfColorNames = [
     "Chocolate",
     "Coral",
     "CornflowerBlue",
-    "Cornsilk",
+    "CornSilk",
     "Crimson",
     "Cyan",
     "DarkBlue",
