@@ -9,6 +9,7 @@
         <script src="colors/conversions.js"></script>
         <script src="colors/sorting.js"></script>
         <script src="ui/elements.js"></script>
+        <script src="ui/sortingOrder.js"></script>
         <script src="ui/main.js"></script>
         <style>
             :root {
@@ -58,12 +59,12 @@
                 <input type="radio" name="naming-source" checked="true">&thinsp;CSS</input>
                 <input type="radio" name="naming-source">&thinsp;WPF</input>
                 <select>
+                    <option>Hue</option>
+                    <option>Saturation</option>
+                    <option>Lightness</option>
+                    <option>&nbsp;&gt;&nbsp;</option>
+                    <option>, in reverse</option>
                     <option>Alphanumeric</option>
-                    <option>Alphanumeric, in reverse</option>
-                    <option>Lightness &gt; Saturation &gt; Hue</option>
-                    <option>Lightness &gt; Saturation &gt; Hue, in reverse</option>
-                    <option>Hue &gt; Saturation &gt; Lightness</option>
-                    <option>Hue &gt; Saturation &gt; Lightness, in reverse</option>
                 </select>
             </p>
             <p>Number of names: <span></span></p>

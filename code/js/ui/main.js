@@ -162,6 +162,12 @@ window.onload = () => {
     }; //populate
     populate(cssColorMapMetadata);
 
+    sortingOrder.setup(elements.sort, (sort, reverse) => {
+        orderSet.sort(currentColorMapMetadata, sort, reverse);
+        populate(currentColorMapMetadata);
+        initializeSelection(currentColorMapMetadata);
+    });
+    /*
     elements.sort.onchange = event => {
         let sort; let inverted;
         currentColorMapMetadata.orderIndex = event.target.selectedIndex;
@@ -177,6 +183,7 @@ window.onload = () => {
         populate(currentColorMapMetadata);
         initializeSelection(currentColorMapMetadata);
     }; //elements.sort.onchange
+    */
 
     elements.table.tabIndex = 0;
     const focusPromise = new Promise(resolve => resolve(elements.table));
