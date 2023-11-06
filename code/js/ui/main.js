@@ -5,8 +5,8 @@ window.onload = () => {
     const elements = getElements();
     elements.metadata.copyright.textContent = definitionSet.metadata.copyright;
     elements.metadata.version.textContent = definitionSet.metadata.version;
-    const cssColorMapMetadata = { source: cssColorNames, map: new Map(), isRemapped: false };
-    const wpfColorMapMetadata = { source: wpfColorNames, map: new Map(), isRemapped: false };
+    const cssColorMapMetadata = { source: cssColorNames, map: new Map(), orderIndex: 0, isRemapped: false };
+    const wpfColorMapMetadata = { source: wpfColorNames, map: new Map(), orderIndex: 0, isRemapped: false };
 
     const remap = colorMapMetadata => {
         if (colorMapMetadata.isRemapped) return;
@@ -22,6 +22,7 @@ window.onload = () => {
         const dataSourceHandler = (event, colorMapMetadata) => {
             if (event.target.checked) {
                 populate(colorMapMetadata);
+                elements.sort.selectedIndex = colorMapMetadata.orderIndex;
                 if (colorMapMetadata.isRemapped) return
                 const remapPromise = new Promise(resolve => resolve(colorMapMetadata));
                 remapPromise.then(metadata => {
@@ -150,9 +151,10 @@ window.onload = () => {
         select(currentCell, true);
     }; //populate
     populate(cssColorMapMetadata);
-;
+
     elements.sort.onchange = event => {
         let sort; let inverted;
+        currentColorMapMetadata.orderIndex = event.target.selectedIndex;
         switch (event.target.selectedIndex) {
             case 0: sort = undefined; inverted = false; break;
             case 1: sort = undefined; inverted = true; break;
