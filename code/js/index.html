@@ -7,6 +7,7 @@
         <script src="ui/definitionSet.js"></script>
         <script src="colors/parsing.js"></script>
         <script src="colors/conversions.js"></script>
+        <script src="colors/sorting.js"></script>
         <script src="ui/elements.js"></script>
         <script src="ui/main.js"></script>
         <style>
@@ -14,6 +15,7 @@
                 --deltaX: 2em;
                 --margin-Y: 0.3em;
                 --padding: 0.3em 1em 0.3em 1em;
+                --padding-horizontal: 1em;
                 --margin-X-small: 0.3em;
             }
             * { padding: 0; margin: 0; box-sizing: border-box; font-family: sans-serif; user-select: none; }
@@ -23,6 +25,8 @@
             header { background-color: aliceBlue; }
             footer { background-color: beige; }
             header, footer, main { padding: var(--padding); }
+            header p > * { vertical-align: middle; }
+            header p select { margin-left: var(--deltaX); font-size: 100%; padding-left: var(--padding-horizontal); padding-right: var(--padding-horizontal); }
             main { border-top: solid thin gray; border-bottom: solid thin gray; }
             input[type=radio]:last-of-type { margin-left: var(--deltaX); }
             main > section { margin-top: var(--margin-Y); font-size: 160%; padding: var(--padding); overflow: hidden; }
@@ -53,6 +57,14 @@
             <p>
                 <input type="radio" name="naming-source" checked="true">&thinsp;CSS</input>
                 <input type="radio" name="naming-source">&thinsp;WPF</input>
+                <select>
+                    <option>Alphanumeric</option>
+                    <option>Alphanumeric, in reverse</option>
+                    <option>Lightness &gt; Saturation &gt; Hue</option>
+                    <option>Lightness &gt; Saturation &gt; Hue, in reverse</option>
+                    <option>Hue &gt; Saturation &gt; Lightness</option>
+                    <option>Hue &gt; Saturation &gt; Lightness, in reverse</option>
+                </select>
             </p>
             <p>Number of names: <span></span></p>
             <p>Color: <input spellcheck="false"></input></p>

@@ -13,7 +13,7 @@ window.onload = () => {
         for (const [key, value] of colorMapMetadata.map) {
             const style = window.getComputedStyle(value);
             const color = conversionSet.parseToRgba(style.backgroundColor);
-            colorMapMetadata.map.set(key, { element: value, color: color });
+            colorMapMetadata.map.set(key, { element: value, cssColor: style.backgroundColor, color: color });
         } //loop
         colorMapMetadata.isRemapped = true;
     }; //remap
@@ -39,12 +39,12 @@ window.onload = () => {
         if (doSelect) {
             cell.classList.add(definitionSet.selectionIndicator);
             if (currentColorMapMetadata.isRemapped) {
-                const color = currentColorMapMetadata.map.get(cell.title).color;
-                elements.colorResult.value = conversionSet.rgbToCss(cell.title, color);
+                const mapValue = currentColorMapMetadata.map.get(cell.title);
+                elements.colorResult.value = conversionSet.rgbToCss(cell.title, mapValue.color);
                 if (elements.navigationBehavior.background.checked)
-                    elements.sample.style.backgroundColor = color;
+                    elements.sample.style.backgroundColor = mapValue.cssColor;
                 if (elements.navigationBehavior.foreground.checked)
-                    elements.sample.style.color = color;
+                    elements.sample.style.color = mapValue.cssColor;
             } //if
         } else
             cell.classList.remove(definitionSet.selectionIndicator);
@@ -127,7 +127,7 @@ window.onload = () => {
             }; //cell.onpointerdown
             cell.onpointerup = event => {
                 if (!event.ctrlKey) return;
-                const color = currentColorMapMetadata.map.get(currentCell.title).color;
+                const color = currentColorMapMetadata.map.get(currentCell.title).cssColor;
                 if (event.shiftKey)
                     elements.sample.style.color = color;
                 else
@@ -150,6 +150,20 @@ window.onload = () => {
         select(currentCell, true);
     }; //populate
     populate(cssColorMapMetadata);
+;
+    elements.sort.onchange = event => {
+        let sort; let inverted;
+        switch (event.target.selectedIndex) {
+            case 0: sort = undefined; inverted = false; break;
+            case 1: sort = undefined; inverted = true; break;
+            case 2: sort = [2, 1, 0]; inverted = false; break;
+            case 3: sort = [2, 1, 0]; inverted = true; break;
+            case 4: sort = [0, 1, 2]; inverted = false; break;
+            case 5: sort = [0, 1, 2]; inverted = true; break;
+        }
+        orderSet.sort(currentColorMapMetadata, sort, inverted);
+        populate(currentColorMapMetadata);
+    }; //elements.sort.onchange
 
     elements.table.tabIndex = 0;
     const focusPromise = new Promise(resolve => resolve(elements.table));

@@ -11,6 +11,7 @@ const getElements = () => {
         colorCountIndicator: document.querySelector("header span"),
         colorResult: document.querySelector("header p:last-of-type input"),
         sample: document.querySelector("main > section"),
+        sort: document.querySelector("header select"),
         metadata: {
             copyright: document.querySelector("footer span:first-of-type"),
             version: document.querySelector("footer span:last-of-type"),

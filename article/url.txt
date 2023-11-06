@@ -1,3 +1,10 @@
+https://developer.mozilla.org/en-US/blog/css-color-module-level-4/
+:
+rgb, hsl, CIELAB: (lab, lch), hwb, color(display-p3), color(display-rec2020), color(srgb), oklab, oklch, color(prophoto-rgb), color(a98-rgb), color(xyz), color(srgb-linear)
+=>
+Color picker:
+https://colorjs.io/apps/picker/
+
 https://css-tricks.com/converting-color-spaces-in-javascript/
 https://css-tricks.com/snippets/css/named-colors-and-hex-equivalents/
 https://stackoverflow.com/questions/1573053/javascript-function-to-convert-color-names-to-hex-codes#1573141
