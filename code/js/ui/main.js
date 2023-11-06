@@ -12,7 +12,8 @@ window.onload = () => {
         if (colorMapMetadata.isRemapped) return;
         for (const [key, value] of colorMapMetadata.map) {
             const style = window.getComputedStyle(value);
-            colorMapMetadata.map.set(key, { element: value, color: style.backgroundColor });
+            const color = conversionSet.parseToRgba(style.backgroundColor);
+            colorMapMetadata.map.set(key, { element: value, color: color });
         } //loop
         colorMapMetadata.isRemapped = true;
     }; //remap
@@ -39,16 +40,7 @@ window.onload = () => {
             cell.classList.add(definitionSet.selectionIndicator);
             if (currentColorMapMetadata.isRemapped) {
                 const color = currentColorMapMetadata.map.get(cell.title).color;
-                //const rgba = conversionSet.parseToRgba(color);
-                //const hsl = conversionSet.hsToString(conversionSet.rgbToHsl(rgba[0], rgba[1], rgba[2], rgba[3]));
-                //rgba[3] /= 255;
                 elements.colorResult.value = conversionSet.rgbToCss(cell.title, color);
-                //definitionSet.colorSpace.formatColor();
-                //        cell.title,
-                //        conversionSet.parseToRgbaHex(currentColorMapMetadata.map.get(cell.title).color),
-                //        definitionSet.colorSpace.formatRgba(rgba),
-                //        hsl
-                //    );
                 if (elements.navigationBehavior.background.checked)
                     elements.sample.style.backgroundColor = color;
                 if (elements.navigationBehavior.foreground.checked)

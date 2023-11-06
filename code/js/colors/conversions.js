@@ -67,8 +67,7 @@
             normalize(value[2], 100),
             normalize(value[3], 100));
 
-    const rgbToCss = function (colorName, color) {
-        const rgba = this.parseToRgba(color);
+    const rgbToCss = function (colorName, rgba) {
         const hsl = hsToString(conversionSet.rgbToHsl(rgba[0], rgba[1], rgba[2], rgba[3]));
         const hex = rgbaHex(rgba);
         rgba[3] = normalize(rgba[3], 1 / 255); // for formatRgba, to have alpha in [0..1], not %
