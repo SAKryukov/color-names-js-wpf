@@ -5,8 +5,8 @@ window.onload = () => {
     const elements = getElements();
     elements.metadata.copyright.textContent = definitionSet.metadata.copyright;
     elements.metadata.version.textContent = definitionSet.metadata.version;
-    const cssColorMapMetadata = { source: cssColorNames, map: new Map(), orderIndex: 0, isRemapped: false };
-    const wpfColorMapMetadata = { source: wpfColorNames, map: new Map(), orderIndex: 0, isRemapped: false };
+    const cssColorMapMetadata = { source: cssColorNames, map: new Map(), orderIndex: 0, selection: [0, 0], isRemapped: false };
+    const wpfColorMapMetadata = { source: wpfColorNames, map: new Map(), orderIndex: 0, selection: [0, 0], isRemapped: false };
 
     const remap = colorMapMetadata => {
         if (colorMapMetadata.isRemapped) return;
@@ -18,11 +18,23 @@ window.onload = () => {
         colorMapMetadata.isRemapped = true;
     }; //remap
 
+    let currentCell, tableBody, currentColorMapMetadata;
+
+    const initializeSelection = colorMapMetadata => {
+        const row = tableBody.rows[colorMapMetadata.selection[1]];
+        const cell = row.cells[colorMapMetadata.selection[0]];
+        if (currentCell != null)
+            select(currentCell, false);
+        select(cell, true);
+        currentCell = cell;
+    } //initializeSelection
+
     (() => { //radio events:
         const dataSourceHandler = (event, colorMapMetadata) => {
             if (event.target.checked) {
                 populate(colorMapMetadata);
                 elements.sort.selectedIndex = colorMapMetadata.orderIndex;
+                initializeSelection(colorMapMetadata);
                 if (colorMapMetadata.isRemapped) return
                 const remapPromise = new Promise(resolve => resolve(colorMapMetadata));
                 remapPromise.then(metadata => {
@@ -34,7 +46,6 @@ window.onload = () => {
         elements.radio.wpf.onchange = event => dataSourceHandler(event, wpfColorMapMetadata);
     })();
 
-    let currentCell, tableBody, currentColorMapMetadata;
     const select = (cell, doSelect) => {
         if (!cell) return;
         if (doSelect) {
@@ -47,6 +58,7 @@ window.onload = () => {
                 if (elements.navigationBehavior.foreground.checked)
                     elements.sample.style.color = mapValue.cssColor;
             } //if
+            currentColorMapMetadata.selection = [cell.cellIndex, cell.parentElement.rowIndex];
         } else
             cell.classList.remove(definitionSet.selectionIndicator);
     }; //select
@@ -107,7 +119,6 @@ window.onload = () => {
     } //elements.table.onkeydown
 
     const populate = colorMapMetadata => {
-        select(currentCell, true);
         currentColorMapMetadata = colorMapMetadata;
         const source = colorMapMetadata.source;
         const mapIt = colorMapMetadata.map.size < 1;
@@ -148,7 +159,6 @@ window.onload = () => {
             if (row.rowIndex == 0 && cell.cellIndex == 0)
                 currentCell = cell;
         } //loop   
-        select(currentCell, true);
     }; //populate
     populate(cssColorMapMetadata);
 
@@ -165,6 +175,7 @@ window.onload = () => {
         }
         orderSet.sort(currentColorMapMetadata, sort, inverted);
         populate(currentColorMapMetadata);
+        initializeSelection(currentColorMapMetadata);
     }; //elements.sort.onchange
 
     elements.table.tabIndex = 0;
