@@ -3,7 +3,7 @@
 const definitionSet = {
 
      metadata: {
-        version: "0.1.2",
+        version: "0.1.3",
        copyright: "Sergey A Kryukov, 2023",
     },
 
