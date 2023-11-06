@@ -16,19 +16,6 @@ const conversionSet = (() => {
         return result;
     }; //parseToRgba
 
-    const parseToRgbaHex = cssColor => {
-        const size = definitionSet.colorSpace.colorComponentHexSize;
-        const colors = parseToRgba(cssColor);
-        const result = [];
-        for (let color of colors) {
-            let text = definitionSet.colorSpace.colorComponentHexPad.repeat(size)
-                + color.toString(definitionSet.colorSpace.hex);
-            text = text.slice(text.length - size);
-            result.push(text);
-        } //loop
-        return definitionSet.colorSpace.joinHexArray(result);
-    }; //parseToRgbaHex
-    
-    return { parseToRgba: parseToRgba, parseToRgbaHex: parseToRgbaHex, };
+    return { parseToRgba: parseToRgba };
 
 })();
