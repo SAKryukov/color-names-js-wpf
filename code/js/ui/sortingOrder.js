@@ -2,6 +2,22 @@
 
 const sortingOrder = (() => {
 
+    const permute = originalArray => {
+        let result = [];
+        const recurse = (data, currentArray = []) => {
+            if (data.length != 0)
+                for (let index = 0; index < data.length; ++index) {
+                    let current = data.slice();
+                    let next = current.splice(index, 1);
+                    recurse(current.slice(), currentArray.concat(next))
+                } //loop
+            else
+                result.push(currentArray);
+        }; //recurse
+        recurse(originalArray);
+        return result;
+    }; //permute
+
     const addOption = (selectElement, text) => {
         const option = document.createElement("option");
         option.text = text;
@@ -22,7 +38,16 @@ const sortingOrder = (() => {
         map.set(selectElement.options.length - 1, { sort: permutation, reverse: reverse != null })
     }; //addPermutation
 
+    const addPermutations  = (selectElement, map, permutations, delimiter, hslComponents, reverse) => {
+        for (let permutation of permutations) {
+            addPermutation(selectElement, map, permutation, delimiter, hslComponents, null);
+            addPermutation(selectElement, map, permutation, delimiter, hslComponents, reverse);
+        } //loop
+    }; //addPermutations
+
+
     const setup = (selectElement, action) => { // action(sort, reverse)
+        const allPermutations = permute([2, 1, 0]); //sic! lightness first
         const map = new Map();
         const hslComponents = [];
         let index;
@@ -37,10 +62,7 @@ const sortingOrder = (() => {
         addOption(selectElement, alphanumeric + reverse);
         map.set(0, { sort: undefined, reverse: false });
         map.set(1, { sort: undefined, reverse: true });
-        addPermutation(selectElement, map, [2, 1, 0], delimiter, hslComponents, reverse);
-        addPermutation(selectElement, map, [2, 1, 0], delimiter, hslComponents, null);
-        addPermutation(selectElement, map, [0, 1, 2], delimiter, hslComponents, reverse);
-        addPermutation(selectElement, map, [0, 1, 2], delimiter, hslComponents, null);
+        addPermutations(selectElement, map, allPermutations, delimiter, hslComponents, reverse);
         selectElement.onchange = event => {
             const value = map.get(event.target.selectedIndex);
             if (value)
@@ -51,4 +73,3 @@ const sortingOrder = (() => {
     return { setup: setup };
 
 })();
-
