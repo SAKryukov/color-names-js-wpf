@@ -2,8 +2,6 @@
 
 window.onload = () => {
 
-    //let value = 100*0.5699999999999999;
-    //value = value.toPrecision(2);
     const elements = getElements();
     elements.metadata.copyright.textContent = definitionSet.metadata.copyright;
     elements.metadata.version.textContent = definitionSet.metadata.version;
@@ -39,23 +37,25 @@ window.onload = () => {
         if (!cell) return;
         if (doSelect) {
             cell.classList.add(definitionSet.selectionIndicator);
-            const rgba = conversionSet.parseToRgba(currentColorMapMetadata.map.get(cell.title).color);
-            const hsl = conversionSet.hsToString(conversionSet.rgbToHsl(rgba[0], rgba[1], rgba[2], rgba[3]));
-            rgba[3] = definitionSet.colorSpace.specialRgbaOpacity(rgba[3]);
-            elements.colorResult.value =
-                definitionSet.colorSpace.formatColor(
-                    cell.title,
-                    conversionSet.parseToRgbaHex(currentColorMapMetadata.map.get(cell.title).color),
-                    definitionSet.colorSpace.formatRgba(rgba),
-                    hsl
-                );
+            if (currentColorMapMetadata.isRemapped) {
+                const color = currentColorMapMetadata.map.get(cell.title).color;
+                const rgba = conversionSet.parseToRgba(color);
+                const hsl = conversionSet.hsToString(conversionSet.rgbToHsl(rgba[0], rgba[1], rgba[2], rgba[3]));
+                rgba[3] /= 255;
+                elements.colorResult.value =
+                    definitionSet.colorSpace.formatColor(
+                        cell.title,
+                        conversionSet.parseToRgbaHex(currentColorMapMetadata.map.get(cell.title).color),
+                        definitionSet.colorSpace.formatRgba(rgba),
+                        hsl
+                    );
+                if (elements.navigationBehavior.background.checked)
+                    elements.sample.style.backgroundColor = color;
+                if (elements.navigationBehavior.foreground.checked)
+                    elements.sample.style.color = color;
+            } //if
         } else
             cell.classList.remove(definitionSet.selectionIndicator);
-        const color = currentColorMapMetadata.map.get(cell.title).color;
-        if (elements.navigationBehavior.background.checked)
-            elements.sample.style.backgroundColor = color;
-        if (elements.navigationBehavior.foreground.checked)
-            elements.sample.style.color = color;            
     }; //select
 
     elements.table.onkeydown = event => {

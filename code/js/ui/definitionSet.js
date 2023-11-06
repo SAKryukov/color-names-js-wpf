@@ -14,13 +14,12 @@ const definitionSet = {
         colorComponentHexPad: "0",
         hex: 16,
         joinHexArray: data => `#${data.join("")}`,
-        specialRgbaOpacity: opacity => `/${opacity*100/0xff}%`,
         formatRgba: color =>
-            color.join(" "),
+            color.join(", "),
         formatColor: (name, hex, rgb, hsl) =>
-        `${name}: ${hex.toUpperCase()}, rgb(${rgb}), hsl(${hsl})`,
+            `${name}: ${hex.toUpperCase()}, rgb(${rgb}), hsl(${hsl})`,
         formatHs: (h, s, value, a) =>
-        `${h}, ${s}%, ${value}%, ${a}%`,
+            `${h}, ${s}%, ${value}%, ${a}%`,
     },
 
     columns: 8,   
