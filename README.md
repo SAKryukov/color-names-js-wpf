@@ -8,4 +8,4 @@ For the definitions to include in an application, see [JavaScript code](./code/j
 
 ### Credits
 
-I used RGB to HSL conversion [suggested](https://gist.github.com/mjackson/5311256) by [Michael Jackson](https://gist.github.com/mjackson), but I had to improve the code and informed Michael on the potential problems.
+I used RGB to HSL conversion [suggested](https://gist.github.com/mjackson/5311256) by [Michael Jackson](https://gist.github.com/mjackson), but I had to improve the code and notify Michael of the potential problems.
