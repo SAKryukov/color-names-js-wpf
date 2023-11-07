@@ -8,6 +8,11 @@ const getElements = () => {
             css: document.querySelector("header input[type=radio]:first-of-type"),
             wpf: document.querySelector("header input[type=radio]:last-of-type"),
         },
+        complementaryColors: {
+            label: document.querySelector("header p label:nth-of-type(3)"),
+            checkbox: document.querySelector("header p input[type=checkbox"),
+        },
+        install: document.querySelector("footer button"),
         colorCountIndicator: document.querySelector("header span"),
         colorResult: document.querySelector("header p:last-of-type input"),
         sample: document.querySelector("main > section"),

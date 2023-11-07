@@ -1,8 +1,12 @@
-"use strict";
+    "use strict";
 
 window.onload = () => {
 
     const elements = getElements();
+
+    //elements.install.style.display = "inline";
+    //elements.complementaryColors.label.style.display = "inline";
+
     elements.metadata.copyright.textContent = definitionSet.metadata.copyright;
     elements.metadata.version.textContent = definitionSet.metadata.version;
     const cssColorMapMetadata = { source: cssColorNames, map: new Map(), orderIndex: 0, selection: [0, 0], isRemapped: false };
