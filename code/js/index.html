@@ -30,11 +30,11 @@
             header, footer, main { padding: var(--padding); }
             header p { display: flex; flex-direction: row; align-items: center; }
             header p select { margin-left: var(--deltaX); font-size: 100%; padding-left: var(--padding-horizontal); padding-right: var(--padding-horizontal); }
+            header label:not(:first-of-type) { margin-left: var(--deltaX); }
             footer { display: flex; flex-direction: row; justify-content: space-between;  align-items: center; }
             footer button { padding: var(--padding-button); border-radius: 6px; border: solid 1px gray; }
             footer button:focus { outline: 4px chocolate solid; outline-offset: -3px; }
             footer button { display: none; } /* reserved for PWA */
-            label:not(:first-of-type) { margin-left: var(--deltaX); }
             main { border-top: solid thin gray; border-bottom: solid thin gray; }
             main > section { margin-top: var(--margin-Y); font-size: 160%; padding: var(--padding); overflow: hidden; }
             main > p { margin-top: var(--margin-Y); }
@@ -56,6 +56,7 @@
             td > div *, td > div { vertical-align: middle; pointer-events: none; }
             td > div > div { width: 1em; height: 1em; display: inline-block; border: solid thin black; }
             span { margin-left: var(--margin-X-small); }
+            /* b { font-weight: normal; } */ /* reserved for v.1.0+ */ 
         </style>
     </head>
     <body>
@@ -63,7 +64,7 @@
             <p>
                 <label><input id="css" type="radio" name="naming-source" checked="true"></input> CSS</label>
                 <label><input id="wpf" type="radio" name="naming-source"></input> WPF</label>
-                <label><input type="checkbox"></input>&thinsp;Complementary colors</label>
+                <label id="label-complementary-colors"><input id="complementary-colors" type="checkbox"></input>&thinsp;Complementary colors</label>
                 <select>
                     <option>Hue</option>
                     <option>Saturation</option>
@@ -83,13 +84,15 @@
                 Sample: edit, Ctrl+click on color cell to change background, Ctrl+Shift+click &mdash; foreground
             </section>
             <p>
-                <input type="checkbox">&thinsp;Navigation changes sample background color</input>
+                <label><input type="checkbox" id="navigation-to-background">&thinsp;Navigation changes the sample background color</input></label>
                 <br/>
-                <input type="checkbox">&thinsp;Navigation changes sample text color</input>
+                <label><input type="checkbox" id="navigation-to-foreground">&thinsp;Navigation changes the sample text color</input></label>
+                <br/>
+                <label><input type="checkbox"  id="navigation-to-clipboard">&thinsp;Navigation copies text output to the clipboard</input></label>
             </p>
         </main>
         <footer>
-            <small>Copyright &copy; <span></span>, v.&thinsp;<b></b></small><button>Install</button>
+            <small>Copyright &copy; <span></span>, <b>v.&thinsp;</b></small><button>Install</button>
         </footer>
     </body>
 </html>

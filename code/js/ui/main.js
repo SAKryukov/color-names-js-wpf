@@ -5,7 +5,7 @@ window.onload = () => {
     const elements = getElements();
 
     elements.metadata.copyright.textContent = definitionSet.metadata.copyright;
-    elements.metadata.version.textContent = definitionSet.metadata.version;
+    elements.metadata.version.textContent += definitionSet.metadata.version;
     const cssColorMapMetadata = { source: cssColorNames, map: new Map(), orderIndex: 0, selection: [0, 0], isRemapped: false };
     const wpfColorMapMetadata = { source: wpfColorNames, map: new Map(), orderIndex: 0, selection: [0, 0], isRemapped: false };
 
@@ -54,11 +54,14 @@ window.onload = () => {
             cell.classList.add(definitionSet.selectionIndicator);
             if (currentColorMapMetadata.isRemapped) {
                 const mapValue = currentColorMapMetadata.map.get(cell.title);
-                elements.colorResult.value = conversionSet.rgbToCss(cell.title, mapValue.color);
+                const output = conversionSet.rgbToCss(cell.title, mapValue.color);
+                elements.colorResult.value = output;
                 if (elements.navigationBehavior.background.checked)
                     elements.sample.style.backgroundColor = mapValue.cssColor;
                 if (elements.navigationBehavior.foreground.checked)
                     elements.sample.style.color = mapValue.cssColor;
+                if (elements.navigationBehavior.clipboard.checked)
+                    navigator.clipboard.writeText(output);
             } //if
             currentColorMapMetadata.selection = [cell.cellIndex, cell.parentElement.rowIndex];
         } else

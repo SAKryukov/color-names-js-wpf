@@ -9,8 +9,8 @@ const getElements = () => {
             wpf: document.querySelector("#wpf"),
         },
         complementaryColors: {
-            label: document.querySelector("header p label:nth-of-type(3)"),
-            checkbox: document.querySelector("header p input[type=checkbox"),
+            label: document.querySelector("#label-complementary-colors"),
+            checkbox: document.querySelector("#complementary-colors"),
         },
         install: document.querySelector("footer button"),
         colorCountIndicator: document.querySelector("header span"),
@@ -22,8 +22,9 @@ const getElements = () => {
             version: document.querySelector("footer b"),
         },
         navigationBehavior: {
-            background: document.querySelector("main > p > input:first-of-type"),
-            foreground: document.querySelector("main > p > input:last-of-type"),
+            background: document.querySelector("#navigation-to-background"),
+            foreground: document.querySelector("#navigation-to-foreground"),
+            clipboard: document.querySelector("#navigation-to-clipboard"),
         },
     } //elementSet
 
