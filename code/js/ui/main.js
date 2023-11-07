@@ -20,7 +20,7 @@ window.onload = () => {
     }; //remap
 
     let currentCell, tableBody, currentColorMapMetadata;
-    let columnFirst = true; //SA???
+    let columnFirst = true;
 
     const initializeSelection = colorMapMetadata => {
         const row = tableBody.rows[colorMapMetadata.selection[1]];
@@ -66,7 +66,35 @@ window.onload = () => {
     }; //select
 
     elements.table.onkeydown = event => {
+        const cellIndex = cell => [cell.cellIndex, cell.parentElement.rowIndex];
+        const cellColorIndex = index =>
+            columnFirst
+                ? elements.table.tBodies[0].rows.length * index[0] + index[1]
+                : definitionSet.columns * index[1] + index[0];
+        const nextPrevious = increment => {
+            const currentCellIndex = cellIndex(currentCell);
+            let currentCellColorIndex = cellColorIndex(currentCellIndex);
+            currentCellColorIndex = increment(currentCellColorIndex);
+            select(currentCell, false);
+            const column = columnFirst
+                ? Math.floor(currentCellColorIndex / elements.table.tBodies[0].rows.length)
+                : currentCellColorIndex % definitionSet.columns;
+            const row = columnFirst
+                ? (currentCellColorIndex % elements.table.tBodies[0].rows.length)
+                : Math.floor(currentCellColorIndex / definitionSet.columns);
+            currentCell = elements.table.tBodies[0].rows[row].cells[column];
+            select(currentCell, true);
+        } //nextPrevious
+        const previous = () => nextPrevious(current =>
+            current > 0
+                ? current - 1
+                : currentColorMapMetadata.source.length - 1);
+        const next = () => nextPrevious(current =>
+            current < currentColorMapMetadata.source.length - 1
+                ? current + 1
+                : 0);
         const moveUp = () => {
+            if (columnFirst) { previous(); return; }
             const xIndex = currentCell.cellIndex;
             const currentRow = currentCell.parentElement;
             const yIndex = currentRow.rowIndex;
@@ -77,6 +105,7 @@ window.onload = () => {
             select(currentCell, true);
         }; //moveUp
         const moveDown = () => {
+            if (columnFirst) { next(); return; }
             const xIndex = currentCell.cellIndex;
             const currentRow = currentCell.parentElement;
             const yIndex = currentRow.rowIndex;
@@ -88,6 +117,7 @@ window.onload = () => {
             select(currentCell, true);
         }; //moveDown
         const moveLeft = () => {
+            if (!columnFirst) { previous(); return; }
             const xIndex = currentCell.cellIndex;
             const currentRow = currentCell.parentElement;
             if (xIndex < 1) return;
@@ -96,6 +126,7 @@ window.onload = () => {
             select(currentCell, true);
         }; //moveLeft
         const moveRight = () => {
+            if (!columnFirst) { next(); return; }
             const xIndex = currentCell.cellIndex;
             const currentRow = currentCell.parentElement;
             if (xIndex >= currentRow.childNodes.length - 1) return;
