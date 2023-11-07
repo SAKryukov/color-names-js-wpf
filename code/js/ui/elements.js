@@ -5,8 +5,8 @@ const getElements = () => {
     const elementSet = {
         table: document.querySelector("main table"),
         radio: {
-            css: document.querySelector("header input[type=radio]:first-of-type"),
-            wpf: document.querySelector("header input[type=radio]:last-of-type"),
+            css: document.querySelector("#css"),
+            wpf: document.querySelector("#wpf"),
         },
         complementaryColors: {
             label: document.querySelector("header p label:nth-of-type(3)"),
