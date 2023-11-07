@@ -20,7 +20,7 @@ window.onload = () => {
     }; //remap
 
     let currentCell, tableBody, currentColorMapMetadata;
-    let columnFirst = true;
+    let columnFirst = true; //SA???
 
     const initializeSelection = colorMapMetadata => {
         const row = tableBody.rows[colorMapMetadata.selection[1]];
@@ -164,10 +164,9 @@ window.onload = () => {
             let row = tableBody.rows[0];
             for (let color of source) {
                 const cell = row.insertCell();
-                if (row.rowIndex < rowCount - 1)
-                    row = tableBody.rows[row.rowIndex + 1];
-                else
-                    row = tableBody.rows[0];
+                row = tableBody.rows[
+                    row.rowIndex < rowCount - 1 ? row.rowIndex + 1 : 0
+                ];
                 setupCell(cell, mapIt, color);
             } //loop
         } else {
