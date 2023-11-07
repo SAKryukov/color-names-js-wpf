@@ -171,23 +171,6 @@ window.onload = () => {
         populate(currentColorMapMetadata);
         initializeSelection(currentColorMapMetadata);
     });
-    /*
-    elements.sort.onchange = event => {
-        let sort; let inverted;
-        currentColorMapMetadata.orderIndex = event.target.selectedIndex;
-        switch (event.target.selectedIndex) {
-            case 0: sort = undefined; inverted = false; break;
-            case 1: sort = undefined; inverted = true; break;
-            case 2: sort = [2, 1, 0]; inverted = false; break;
-            case 3: sort = [2, 1, 0]; inverted = true; break;
-            case 4: sort = [0, 1, 2]; inverted = false; break;
-            case 5: sort = [0, 1, 2]; inverted = true; break;
-        }
-        orderSet.sort(currentColorMapMetadata, sort, inverted);
-        populate(currentColorMapMetadata);
-        initializeSelection(currentColorMapMetadata);
-    }; //elements.sort.onchange
-    */
 
     elements.table.tabIndex = 0;
     const focusPromise = new Promise(resolve => resolve(elements.table));
