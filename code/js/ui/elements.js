@@ -18,8 +18,8 @@ const getElements = () => {
         sample: document.querySelector("main > section"),
         sort: document.querySelector("header select"),
         metadata: {
-            copyright: document.querySelector("footer span:first-of-type"),
-            version: document.querySelector("footer span:last-of-type"),
+            copyright: document.querySelector("footer span"),
+            version: document.querySelector("footer b"),
         },
         navigationBehavior: {
             background: document.querySelector("main > p > input:first-of-type"),
