@@ -4,9 +4,6 @@ window.onload = () => {
 
     const elements = getElements();
 
-    //elements.install.style.display = "inline";
-    //elements.complementaryColors.label.style.display = "inline";
-
     elements.metadata.copyright.textContent = definitionSet.metadata.copyright;
     elements.metadata.version.textContent = definitionSet.metadata.version;
     const cssColorMapMetadata = { source: cssColorNames, map: new Map(), orderIndex: 0, selection: [0, 0], isRemapped: false };
@@ -23,6 +20,7 @@ window.onload = () => {
     }; //remap
 
     let currentCell, tableBody, currentColorMapMetadata;
+    let columnFirst = true;
 
     const initializeSelection = colorMapMetadata => {
         const row = tableBody.rows[colorMapMetadata.selection[1]];
@@ -123,18 +121,7 @@ window.onload = () => {
     } //elements.table.onkeydown
 
     const populate = colorMapMetadata => {
-        currentColorMapMetadata = colorMapMetadata;
-        const source = colorMapMetadata.source;
-        const mapIt = colorMapMetadata.map.size < 1;
-        while (elements.table.firstChild)
-            elements.table.removeChild(elements.table.firstChild);
-        elements.colorCountIndicator.textContent = source.length;
-        tableBody = elements.table.createTBody();
-        let row = document.createElement("tr");
-        for (let color of source) {
-            if (row.childNodes.length >= definitionSet.columns)
-                row = document.createElement("tr");
-            const cell = row.insertCell();
+        const setupCell = (cell, mapIt, color) => {
             cell.title = color;
             cell.onpointerdown = event => {
                 select(currentCell, false);
@@ -147,7 +134,7 @@ window.onload = () => {
                 if (event.shiftKey)
                     elements.sample.style.color = color;
                 else
-                    elements.sample.style.backgroundColor = color;        
+                    elements.sample.style.backgroundColor = color;
             }; //cell.onpointerup
             const cellContent = document.createElement("div");
             const label = document.createElement("span");
@@ -159,10 +146,41 @@ window.onload = () => {
             cellContent.appendChild(cellSample);
             cellContent.appendChild(label);
             cell.appendChild(cellContent);
-            tableBody.appendChild(row);
-            if (row.rowIndex == 0 && cell.cellIndex == 0)
-                currentCell = cell;
-        } //loop   
+        } //setupCell
+        // populate body
+        currentColorMapMetadata = colorMapMetadata;
+        const source = colorMapMetadata.source;
+        const mapIt = colorMapMetadata.map.size < 1;
+        while (elements.table.firstChild)
+            elements.table.removeChild(elements.table.firstChild);
+        elements.colorCountIndicator.textContent = source.length;
+        tableBody = elements.table.createTBody();
+        if (columnFirst) {
+            const rowCount = source.length / definitionSet.columns;
+            for (let index = 0; index < rowCount; ++index) {
+                const newRow = document.createElement("tr");
+                tableBody.appendChild(newRow);
+            } //loop
+            let row = tableBody.rows[0];
+            for (let color of source) {
+                const cell = row.insertCell();
+                if (row.rowIndex < rowCount - 1)
+                    row = tableBody.rows[row.rowIndex + 1];
+                else
+                    row = tableBody.rows[0];
+                setupCell(cell, mapIt, color);
+            } //loop
+        } else {
+            let row = document.createElement("tr");
+            for (let color of source) {
+                if (row.childNodes.length >= definitionSet.columns)
+                    row = document.createElement("tr");
+                const cell = row.insertCell();
+                tableBody.appendChild(row);
+                setupCell(cell, mapIt, color);
+            } //loop
+        } //if
+        currentCell = tableBody.rows[0].cells[0];
     }; //populate
     populate(cssColorMapMetadata);
 
