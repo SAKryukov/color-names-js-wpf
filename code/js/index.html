@@ -19,23 +19,28 @@
                 --padding-button: 1px 1.4em 1px 1.4em;
                 --padding-horizontal: 1em;
                 --margin-X-small: 0.3em;
+                --color-top: hsl(29, 78%, 91%);
+                --color-top-text: hsl(29, 100%, 17%);
+                --color-bottom: hsl(29, 78%, 84%);
+                --color-border: hsl(29, 78%, 27%);
             }
             * { padding: 0; margin: 0; box-sizing: border-box; font-family: sans-serif; user-select: none; }
             html, body { height: 100%; }        
             body { display: flex; flex-flow: column; }
             main { flex: auto; overflow: auto; }
-            header { background-color: aliceBlue; }
-            footer { background-color: beige; }
+            header { background-color:  var(--color-top); color: var(--color-top-text); }
+            header input, header select { color: var(--color-top-text); }
+            footer { background-color:  var(--color-bottom);}
             header label:nth-of-type(3) { display: none; }
             header, footer, main { padding: var(--padding); }
             header p { display: flex; flex-direction: row; align-items: center; }
             header p select { margin-left: var(--deltaX); font-size: 100%; padding-left: var(--padding-horizontal); padding-right: var(--padding-horizontal); }
             header label:not(:first-of-type) { margin-left: var(--deltaX); }
             footer { display: flex; flex-direction: row; justify-content: space-between;  align-items: center; }
-            footer button { padding: var(--padding-button); border-radius: 6px; border: solid 1px gray; }
-            footer button:focus { outline: 4px chocolate solid; outline-offset: -3px; }
+            footer button { padding: var(--padding-button); border-radius: 12px; border: solid 1px gray; color: var(--color-border); }
+            footer button:focus { outline: var(--color-border) solid; outline-offset: -3px; }
             footer button { display: none; } /* reserved for PWA */
-            main { border-top: solid thin gray; border-bottom: solid thin gray; }
+            main { border-top: solid thin var(--color-border); border-bottom: solid thin var(--color-border); }
             main > section { margin-top: var(--margin-Y); font-size: 160%; padding: var(--padding); overflow: hidden; }
             main > p { margin-top: var(--margin-Y); }
             header p:last-of-type { display: flex; flex-flow: row; }
@@ -56,7 +61,7 @@
             td > div *, td > div { vertical-align: middle; pointer-events: none; }
             td > div > div { width: 1em; height: 1em; display: inline-block; border: solid thin black; }
             span { margin-left: var(--margin-X-small); }
-            /* b { font-weight: normal; } */ /* reserved for v.1.0+ */ 
+            b { font-weight: normal; }
         </style>
     </head>
     <body>
