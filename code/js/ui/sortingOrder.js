@@ -24,7 +24,7 @@ const sortingOrder = (() => {
         selectElement.options.add(option);
     }; //addOption
 
-    const addPermutation  = (selectElement, map, permutation, delimiter, hslComponents, reverse) => {
+    const addPermutation  = (selectElement, map, permutation, delimiter, hslComponents, directionIndicator, reverse) => {
         const components = [];
         for (let component of hslComponents)
             components.push(component);
@@ -32,16 +32,15 @@ const sortingOrder = (() => {
         for (let index in permutation)
             orderedComponents.push(hslComponents[permutation[index]]);
         let text = orderedComponents.join(delimiter);
-        if (reverse)
-            text += reverse;
+        text += directionIndicator;
         addOption(selectElement, text);
-        map.set(selectElement.options.length - 1, { sort: permutation, reverse: reverse != null })
+        map.set(selectElement.options.length - 1, { sort: permutation, reverse: reverse })
     }; //addPermutation
 
-    const addPermutations  = (selectElement, map, permutations, delimiter, hslComponents, reverse) => {
+    const addPermutations  = (selectElement, map, permutations, delimiter, hslComponents, defaultDirection, reverseDirection) => {
         for (let permutation of permutations) {
-            addPermutation(selectElement, map, permutation, delimiter, hslComponents, null);
-            addPermutation(selectElement, map, permutation, delimiter, hslComponents, reverse);
+            addPermutation(selectElement, map, permutation, delimiter, hslComponents, defaultDirection, false);
+            addPermutation(selectElement, map, permutation, delimiter, hslComponents, reverseDirection, true);
         } //loop
     }; //addPermutations
 
@@ -54,15 +53,16 @@ const sortingOrder = (() => {
         for (index = 0; index < 3; ++index)
             hslComponents.push(selectElement[index].text);
         const delimiter = selectElement[index].text;
-        const reverse = selectElement[index + 1].text;
-        const alphanumeric = selectElement[index + 2].text;
+        const defaultDirection = selectElement[index + 1].text;
+        const reverseDirection = selectElement[index + 2].text;
+        const alphanumeric = selectElement[index + 3].text;
         while (selectElement.options.length > 0)
             selectElement.remove(0);
-        addOption(selectElement, alphanumeric);
-        addOption(selectElement, alphanumeric + reverse);
+        addOption(selectElement, alphanumeric + defaultDirection);
+        addOption(selectElement, alphanumeric + reverseDirection);
         map.set(0, { sort: undefined, reverse: false });
         map.set(1, { sort: undefined, reverse: true });
-        addPermutations(selectElement, map, allPermutations, delimiter, hslComponents, reverse);
+        addPermutations(selectElement, map, allPermutations, delimiter, hslComponents, defaultDirection, reverseDirection);
         selectElement.onchange = event => {
             const value = map.get(event.target.selectedIndex);
             if (value)

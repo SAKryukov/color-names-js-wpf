@@ -31,7 +31,6 @@
             header { background-color:  var(--color-top); color: var(--color-top-text); }
             header input, header select { color: var(--color-top-text); }
             footer { background-color:  var(--color-bottom);}
-            header label:nth-of-type(3) { display: none; }
             header, footer, main { padding: var(--padding); }
             header p { display: flex; flex-direction: row; align-items: center; }
             header p select { margin-left: var(--deltaX); font-size: 100%; padding-left: var(--padding-horizontal); padding-right: var(--padding-horizontal); }
@@ -69,13 +68,15 @@
             <p>
                 <label><input id="css" type="radio" name="naming-source" checked="true"></input> CSS</label>
                 <label><input id="wpf" type="radio" name="naming-source"></input> WPF</label>
-                <label id="label-complementary-colors"><input id="complementary-colors" type="checkbox"></input>&thinsp;Complementary colors</label>
+                <!-- reserved for next version: -->
+                <label style="display: none"><input id="complementary-colors" type="checkbox"></input>&thinsp;Complementary colors</label>
                 <select>
                     <option>Hue</option>
                     <option>Saturation</option>
                     <option>Lightness</option>
                     <option>&nbsp;&gt;&nbsp;</option>
-                    <option>, in reverse</option>
+                    <option>&nbsp;🠉</option>
+                    <option>&nbsp;🠋</option>
                     <option>Alphanumeric</option>
                 </select>
             </p>

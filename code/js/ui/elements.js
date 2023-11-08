@@ -8,10 +8,7 @@ const getElements = () => {
             css: document.querySelector("#css"),
             wpf: document.querySelector("#wpf"),
         },
-        complementaryColors: {
-            label: document.querySelector("#label-complementary-colors"),
-            checkbox: document.querySelector("#complementary-colors"),
-        },
+        complementaryColors: document.querySelector("#complementary-colors"),
         install: document.querySelector("footer button"),
         colorCountIndicator: document.querySelector("header span"),
         colorResult: document.querySelector("header p:last-of-type input"),

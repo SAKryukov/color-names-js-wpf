@@ -12,8 +12,8 @@ const orderSet = (() => {
         const compare = (left, right) => {
             left = colorMapMetadata.map.get(left).color;
             right = colorMapMetadata.map.get(right).color;
-            const leftHsl = conversionSet.rgbToHsl(left[0], left[1], left[2], left[3]);
-            const rightHsl = conversionSet.rgbToHsl(right[0], right[1], right[2], right[3]);
+            const leftHsl = conversionSet.rgbToHsl(left);
+            const rightHsl = conversionSet.rgbToHsl(right);
             const sign = reverse ? -1 : 1;
             return sign * (hslToFactor(rightHsl) - hslToFactor(leftHsl));
         }; //compare

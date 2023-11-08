@@ -2,29 +2,8 @@
 
 (() => {
 
-    /*
-    const rgbToHsv = (r, g, b, a) => { //https://gist.github.com/mjackson/5311256
-      let max = Math.max(r, g, b), min = Math.min(r, g, b);
-      const componentCase = max == r ? 0 : ( max == g ? 1 : 2);
-      a /= 255, r /= 255, g /= 255, b /= 255, min /= 255, max /= 255;
-      let h, s, v = max;
-      let d = max - min;
-      s = max == 0 ? 0 : d / max;
-      if (max == min) {
-        h = 0; // achromatic
-      } else {
-        switch (componentCase) {
-          case 0: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case 1: h = (b - r) / d + 2; break;
-          case 2: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-      }
-      return [h, s, v, a];
-    }; //rgbToHsv
-    */
-
-    const rgbToHsl = (r, g, b, a) => { //https://gist.github.com/mjackson/5311256
+    const rgbToHsl = rgba => { //https://gist.github.com/mjackson/5311256
+        let [r, g, b, a] = rgba;
         let max = Math.max(r, g, b), min = Math.min(r, g, b);
         const componentCase = max == r ? 0 : (max == g ? 1 : 2); // is max r g or b?
         a /= 255, r /= 255, g /= 255, b /= 255, min /= 255, max /= 255;
@@ -67,14 +46,16 @@
             normalize(value[2], 100),
             normalize(value[3], 100));
 
-    const rgbToCss = function (colorName, rgba) {
-        const hsl = hsToString(conversionSet.rgbToHsl(rgba[0], rgba[1], rgba[2], rgba[3]));
+    const rgbToCss = function (colorName, rgba, isComplementary) {
+        if (isComplementary) colorName = `complementary to ${colorName}`;
+        const hsl = hsToString(conversionSet.rgbToHsl(rgba));
         const hex = rgbaHex(rgba);
-        rgba[3] = normalize(rgba[3], 1 / 255); // for formatRgba, to have alpha in [0..1], not %
+        const normalizedRgba = [rgba[0], rgba[1], rgba[2], rgba[3]];
+        normalizedRgba[3] = normalize(rgba[3], 1 / 255); // for formatRgba, to have alpha in [0..1], not %
         return definitionSet.colorSpace.formatColor(
             colorName,
             hex,
-            definitionSet.colorSpace.formatRgba(rgba),
+            definitionSet.colorSpace.formatRgba(normalizedRgba),
             hsl
         );
     } //rgbToCss

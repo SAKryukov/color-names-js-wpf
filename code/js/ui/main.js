@@ -54,7 +54,7 @@ window.onload = () => {
             cell.classList.add(definitionSet.selectionIndicator);
             if (currentColorMapMetadata.isRemapped) {
                 const mapValue = currentColorMapMetadata.map.get(cell.title);
-                const output = conversionSet.rgbToCss(cell.title, mapValue.color);
+                const output = conversionSet.rgbToCss(cell.title, mapValue.color, elements.complementaryColors.checked);
                 elements.colorResult.value = output;
                 if (elements.navigationBehavior.background.checked)
                     elements.sample.style.backgroundColor = mapValue.cssColor;
@@ -154,7 +154,7 @@ window.onload = () => {
         } //switch
     } //elements.table.onkeydown
 
-    const populate = colorMapMetadata => {
+    const populate = (colorMapMetadata, newCurrentCell) => {
         const setupCell = (cell, mapIt, color) => {
             cell.title = color;
             cell.onpointerdown = event => {
@@ -213,7 +213,7 @@ window.onload = () => {
                 setupCell(cell, mapIt, color);
             } //loop
         } //if
-        currentCell = tableBody.rows[0].cells[0];
+        currentCell = newCurrentCell ?? tableBody.rows[0].cells[0];
     }; //populate
     populate(cssColorMapMetadata);
 
