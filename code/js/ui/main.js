@@ -2,7 +2,19 @@
 
 window.onload = () => {
 
+    if (navigator.serviceWorker && (new URL(window.location).protocol == "https:"))
+        navigator.serviceWorker
+            .register("pwa-service-worker.js");
+
     const elements = getElements();
+
+    window.onbeforeinstallprompt = event => {
+        elements.install.style.display = "block";
+        elements.install.onclick = () => event.prompt();
+    } //window.onbeforeinstallprompt
+    window.onappinstalled = () => {
+        elements.install.style.display = "none";
+    } //window.onappinstalled
 
     elements.metadata.copyright.textContent = definitionSet.metadata.copyright;
     elements.metadata.version.textContent += definitionSet.metadata.version;
