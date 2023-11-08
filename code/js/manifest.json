@@ -1,0 +1,21 @@
+{
+    "name": "Color Name Table",
+    "short_name": "ColorNameTable",
+    "description": "Color names for CSS and WPF, a convenient software development reference and tool",
+    "start_url": "./",
+    "display": "standalone",
+    "theme_color": "linen",
+    "background_color": "white",
+    "icons": [
+        {
+            "src": "./images/color-table.png",
+            "sizes": "16x16",
+            "type": "image/png"
+        },
+        {
+            "src": "./images/color-table.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}

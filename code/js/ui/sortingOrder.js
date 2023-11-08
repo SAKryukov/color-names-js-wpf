@@ -54,11 +54,11 @@ const sortingOrder = (() => {
         const delimiter = selectElement[index].text;
         const defaultDirection = selectElement[index + 1].text;
         const reverseDirection = selectElement[index + 2].text;
-        const alphanumeric = selectElement[index + 3].text;
+        const alphabetical = selectElement[index + 3].text;
         while (selectElement.options.length > 0)
             selectElement.remove(0);
-        addOption(selectElement, alphanumeric + defaultDirection);
-        addOption(selectElement, alphanumeric + reverseDirection);
+        addOption(selectElement, alphabetical + defaultDirection);
+        addOption(selectElement, alphabetical + reverseDirection);
         map.set(0, { sort: undefined, reverse: false });
         map.set(1, { sort: undefined, reverse: true });
         addPermutations(selectElement, map, allPermutations, delimiter, hslComponents, defaultDirection, reverseDirection);
