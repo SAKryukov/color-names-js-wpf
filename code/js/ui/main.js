@@ -220,8 +220,9 @@ window.onload = () => {
     sortingOrder.setup(elements.sort, (sort, reverse) => {
         orderSet.sort(currentColorMapMetadata, sort, reverse);
         populate(currentColorMapMetadata);
+        currentColorMapMetadata.orderIndex = elements.sort.selectedIndex;
         initializeSelection(currentColorMapMetadata);
-    });
+    }); //sortingOrder.setup
 
     elements.complementaryColors.onchange = event => {
         const disable = on => {
@@ -259,7 +260,7 @@ window.onload = () => {
             remapPromise.then(metadata => {
                 remap(metadata);
                 select(currentCell, true);
-                disable(false);
+            disable(false);
             });
         } //if
     }; //elements.complementaryColors.onchange

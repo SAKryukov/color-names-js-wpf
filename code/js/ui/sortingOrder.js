@@ -44,7 +44,6 @@ const sortingOrder = (() => {
         } //loop
     }; //addPermutations
 
-
     const setup = (selectElement, action) => { // action(sort, reverse)
         const allPermutations = permute([2, 0, 1]); //sic! lightness first
         const map = new Map();
