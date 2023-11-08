@@ -14,7 +14,13 @@ window.onload = () => {
         for (const [key, value] of colorMapMetadata.map) {
             const style = window.getComputedStyle(value);
             const color = conversionSet.parseToRgba(style.backgroundColor);
-            colorMapMetadata.map.set(key, { element: value, cssColor: style.backgroundColor, color: color });
+            const complementaryHsvCssColor =
+                conversionSet.hslToCss(conversionSet.rgbToHsl(color, true));
+            colorMapMetadata.map.set(key, {
+                element: value,
+                cssColor: style.backgroundColor,
+                complementaryHsvCssColor: complementaryHsvCssColor,
+                color: color });
         } //loop
         colorMapMetadata.isRemapped = true;
     }; //remap
@@ -34,8 +40,6 @@ window.onload = () => {
     (() => { //radio events:
         const dataSourceHandler = (event, colorMapMetadata) => {
             if (event.target.checked) {
-                colorMapMetadata.map = new Map();
-                colorMapMetadata.isRemapped = false;
                 populate(colorMapMetadata);
                 elements.sort.selectedIndex = colorMapMetadata.orderIndex;
                 initializeSelection(colorMapMetadata);
@@ -55,12 +59,19 @@ window.onload = () => {
             cell.classList.add(definitionSet.selectionIndicator);
             if (currentColorMapMetadata.isRemapped) {
                 const mapValue = currentColorMapMetadata.map.get(cell.title);
-                const output = conversionSet.rgbToCss(cell.title, mapValue.color, elements.complementaryColors.checked);
+                const output = elements.complementaryColors.checked
+                    ? definitionSet.colorSpace.formatComplementHslOutput(
+                        cell.title,
+                        mapValue.complementaryHsvCssColor)
+                    : conversionSet.rgbToCss(cell.title, mapValue.color);
+                const cssColor = elements.complementaryColors.checked
+                    ? mapValue.complementaryHsvCssColor
+                    : mapValue.cssColor;
                 elements.colorResult.value = output;
                 if (elements.navigationBehavior.background.checked)
-                    elements.sample.style.backgroundColor = mapValue.cssColor;
+                    elements.sample.style.backgroundColor = cssColor;
                 if (elements.navigationBehavior.foreground.checked)
-                    elements.sample.style.color = mapValue.cssColor;
+                    elements.sample.style.color = cssColor;
                 if (elements.navigationBehavior.clipboard.checked)
                     navigator.clipboard.writeText(output);
             } //if
@@ -165,11 +176,14 @@ window.onload = () => {
             }; //cell.onpointerdown
             cell.onpointerup = event => {
                 if (!event.ctrlKey) return;
-                const color = currentColorMapMetadata.map.get(currentCell.title).cssColor;
+                const mapValue = currentColorMapMetadata.map.get(currentCell.title);
+                const cssColor = elements.complementaryColors.checked
+                    ? mapValue.complementaryHsvCssColor
+                    : mapValue.cssColor;
                 if (event.shiftKey)
-                    elements.sample.style.color = color;
+                    elements.sample.style.color = cssColor;
                 else
-                    elements.sample.style.backgroundColor = color;
+                    elements.sample.style.backgroundColor = cssColor;
             }; //cell.onpointerup
             const cellContent = document.createElement("div");
             const label = document.createElement("span");
@@ -220,9 +234,9 @@ window.onload = () => {
 
     sortingOrder.setup(elements.sort, (sort, reverse) => {
         currentColorMapMetadata.orderIndex = elements.sort.selectedIndex;
-        orderSet.sort(currentColorMapMetadata, sort, reverse);
         currentColorMapMetadata.map = new Map();
         currentColorMapMetadata.isRemapped = false;
+        orderSet.sort(currentColorMapMetadata, sort, reverse);
         populate(currentColorMapMetadata);
         setTimeout(() => {
             remap(currentColorMapMetadata);
@@ -240,33 +254,15 @@ window.onload = () => {
                     ? definitionSet.uiOpacity.disabled
                     : definitionSet.uiOpacity.normal;
         }; //disable
-        if (event.target.checked) {
-            disable(true);
-            for (const [_, value] of currentColorMapMetadata.map) {
-                const color = value.color;
-                value.cssColor = conversionSet.hslToCss(
-                    conversionSet.rgbToHsl(color, true));
-                value.element.style.backgroundColor = value.cssColor;
-            } //loop
-                setTimeout(() => {
-                    for (const [_, value] of currentColorMapMetadata.map) {
-                        const style = window.getComputedStyle(value.element);
-                        value.color = conversionSet.parseToRgba(style.backgroundColor);
-                    } //loop    
-                    select(currentCell, true);    
-                });
+        if (event.target.checked) {            
+            for (const [_, value] of currentColorMapMetadata.map)
+                value.element.style.backgroundColor = value.complementaryHsvCssColor;
         } else {
-            currentColorMapMetadata.isRemapped = false;
-            currentColorMapMetadata.map.clear();
-            populate(currentColorMapMetadata);
-            elements.sort.selectedIndex = currentColorMapMetadata.orderIndex;
-            initializeSelection(currentColorMapMetadata);
-            setTimeout(() => {
-                remap(currentColorMapMetadata);
-                select(currentCell, true);
-                disable(false);
-            });
+            for (const [_, value] of currentColorMapMetadata.map)
+                value.element.style.backgroundColor = value.cssColor;
         } //if
+        disable(event.target.checked);
+        select(currentCell, true);
     }; //elements.complementaryColors.onchange
 
     elements.table.tabIndex = 0;

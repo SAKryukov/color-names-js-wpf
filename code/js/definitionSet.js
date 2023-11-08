@@ -13,7 +13,6 @@ const definitionSet = {
         colorComponentHexSize: 2,
         colorComponentHexPad: "0",
         hex: 16,
-        colorName: name => `complementary to ${name}`,
         joinHexArray: data => `#${data.join("")}`,
         formatRgba: color =>
             `rgb(${color.join(", ")})`,
@@ -21,6 +20,7 @@ const definitionSet = {
             `${name}: ${hex.toUpperCase()}, ${rgb}, ${hsl}`,
         formatHsl: (h, s, value, a) =>
             `hsl(${h}, ${s}%, ${value}%, ${a}%)`,
+        formatComplementHslOutput: (colorName, hsl) => `complement to ${colorName}: ${hsl}`,
     },
 
     uiOpacity: { disabled: 0.6, normal: 1 },
