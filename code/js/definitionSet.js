@@ -13,6 +13,7 @@ const definitionSet = {
         colorComponentHexSize: 2,
         colorComponentHexPad: "0",
         hex: 16,
+        colorName: name => `complementary to ${name}`,
         joinHexArray: data => `#${data.join("")}`,
         formatRgba: color =>
             `rgb(${color.join(", ")})`,

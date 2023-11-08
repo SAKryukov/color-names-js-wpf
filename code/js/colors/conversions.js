@@ -47,7 +47,8 @@
             normalize(value[3], 100));
 
     const rgbToCss = function (colorName, rgba, isComplementary) {
-        if (isComplementary) colorName = `complementary to ${colorName}`;
+        if (isComplementary)
+            colorName = definitionSet.colorSpace.colorName(colorName);
         const hsl = hslToCss(conversionSet.rgbToHsl(rgba));
         const hex = rgbaHex(rgba);
         const normalizedRgba = [rgba[0], rgba[1], rgba[2], rgba[3]];

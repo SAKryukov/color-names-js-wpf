@@ -244,8 +244,9 @@ window.onload = () => {
             disable(true);
             for (const [_, value] of currentColorMapMetadata.map) {
                 const color = value.color;
-                value.element.style.backgroundColor = conversionSet.hslToCss(
+                value.cssColor = conversionSet.hslToCss(
                     conversionSet.rgbToHsl(color, true));
+                value.element.style.backgroundColor = value.cssColor;
             } //loop
                 setTimeout(() => {
                     for (const [_, value] of currentColorMapMetadata.map) {
