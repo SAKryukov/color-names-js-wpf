@@ -22,6 +22,8 @@ const definitionSet = {
             `${h}, ${s}%, ${value}%, ${a}%`,
     },
 
+    uiOpacity: { disabled: 0.6, normal: 1 },
+
     columns: 8,   
     selectionIndicator: "selected",
 

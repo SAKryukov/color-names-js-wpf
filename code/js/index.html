@@ -21,6 +21,7 @@
                 --margin-X-small: 0.3em;
                 --color-top: hsl(29, 78%, 91%);
                 --color-top-text: hsl(29, 100%, 17%);
+                --color-label-disabled: red;
                 --color-bottom: hsl(29, 78%, 84%);
                 --color-border: hsl(29, 78%, 27%);
             }
@@ -66,10 +67,10 @@
     <body>
         <header>
             <p>
-                <label><input id="css" type="radio" name="naming-source" checked="true"></input> CSS</label>
-                <label><input id="wpf" type="radio" name="naming-source"></input> WPF</label>
+                <label id="label-css"><input id="css" type="radio" name="naming-source" checked="true"></input> CSS</label>
+                <label id="label-wpf"><input id="wpf" type="radio" name="naming-source"></input> WPF</label>
                 <!-- reserved for next version: -->
-                <label style="display: none"><input id="complementary-colors" type="checkbox"></input>&thinsp;Complementary colors</label>
+                <label style="display: none;"><input id="complementary-colors" type="checkbox"></input>&thinsp;Complementary colors</label>
                 <select>
                     <option>Hue</option>
                     <option>Saturation</option>

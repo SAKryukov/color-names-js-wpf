@@ -223,6 +223,47 @@ window.onload = () => {
         initializeSelection(currentColorMapMetadata);
     });
 
+    elements.complementaryColors.onchange = event => {
+        const disable = on => {
+            elements.sort.disabled = on;
+            for (let index in elements.radio)
+                elements.radio[index].disabled = on;
+            for (let element of [elements.radio.labelCss, elements.radio.labelWpf, elements.sort])
+            element.style.opacity = on ? definitionSet.uiOpacity.disabled : definitionSet.uiOpacity.normal;
+        }; //disable
+        if (event.target.checked) {
+            disable(true);
+            for (const [_, value] of currentColorMapMetadata.map) {
+                const color = value.color;
+                const hsl = conversionSet.rgbToHsl(color);
+                hsl[0] *= 360;
+                hsl[0] = (hsl[0] + 180) % 360;
+                hsl[1] *= 100;
+                hsl[2] *= 100;
+                value.element.style.backgroundColor = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%, 100%)`;
+            } //loop
+            setTimeout(() => {
+                for (const [_, value] of currentColorMapMetadata.map) {
+                    const style = window.getComputedStyle(value.element);
+                    value.color = conversionSet.parseToRgba(style.backgroundColor);
+                } //loop
+                select(currentCell, true);
+            });
+        } else {
+            currentColorMapMetadata.isRemapped = false;
+            currentColorMapMetadata.map.clear();
+            populate(currentColorMapMetadata);
+            elements.sort.selectedIndex = currentColorMapMetadata.orderIndex;
+            initializeSelection(currentColorMapMetadata);
+            const remapPromise = new Promise(resolve => resolve(currentColorMapMetadata));
+            remapPromise.then(metadata => {
+                remap(metadata);
+                select(currentCell, true);
+                disable(false);
+            });
+        } //if
+    }; //elements.complementaryColors.onchange
+
     elements.table.tabIndex = 0;
     const focusPromise = new Promise(resolve => resolve(elements.table));
     focusPromise.then(element => {

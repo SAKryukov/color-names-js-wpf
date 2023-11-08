@@ -7,6 +7,8 @@ const getElements = () => {
         radio: {
             css: document.querySelector("#css"),
             wpf: document.querySelector("#wpf"),
+            labelCss: document.querySelector("#label-css"),
+            labelWpf: document.querySelector("#label-wpf"),
         },
         complementaryColors: document.querySelector("#complementary-colors"),
         install: document.querySelector("footer button"),
