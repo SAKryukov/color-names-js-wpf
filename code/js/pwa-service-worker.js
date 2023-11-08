@@ -4,12 +4,19 @@ const cacheName = "SAKryukov-Named-Color-Table-CSS-WPF";
 
 const initialCachedResources = [
     "/",
+    "definitionSet.js",
     "index.html",
-    "index.js",
     "manifest.json",
-    "playgroundAPI.js",
-    "images/JavaScript-Playground.png",
-    "images/JavaScript-Playground.svg"
+    "colors/conversions.js",
+    "colors/parsing.js",
+    "colors/sorting.js",
+    "images/color-table.png",
+    "images/color-table.svg",
+    "names/css.js",
+    "names/wpf.js",
+    "ui/elements.js",
+    "ui/main.js",
+    "ui/sortingOrder.js"
 ];
 
 self.addEventListener("install", function(event) {
