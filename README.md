@@ -15,6 +15,7 @@ For the definitions to include in an application, see [JavaScript code](./code/j
 - Optional color sampling shown on colored text and background
 - Complementary colors
 - 14 sorting modes
+- The application can be used as a [PWA](https://en.wikipedia.org/wiki/Progressive_web_app). Once installed, it can be used 100% offline.
 
 ### Credits
 
