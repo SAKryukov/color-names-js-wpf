@@ -2,7 +2,7 @@
 
 (() => {
 
-    const rgbToHsl = rgba => { //https://gist.github.com/mjackson/5311256
+    const rgbToHsl = (rgba, complementary) => { //https://gist.github.com/mjackson/5311256
         let [r, g, b, a] = rgba;
         let max = Math.max(r, g, b), min = Math.min(r, g, b);
         const componentCase = max == r ? 0 : (max == g ? 1 : 2); // is max r g or b?
@@ -17,10 +17,10 @@
                 case 0: h = (g - b) / d + (g < b ? 6 : 0); break;
                 case 1: h = (b - r) / d + 2; break;
                 case 2: h = (r - g) / d + 4; break;
-            }
+            } //switch
             h /= 6;
-        }
-        return [h, s, l, a];
+        } //if
+        return [complementary ? (h + 0.5) % 1 : h, s, l, a];
     }; //rgbToHsl
 
     ///////////////////////////////////////////////////////////////////////////
@@ -39,8 +39,8 @@
 
     const normalize = (value, scale) => (value * scale).toFixed(definitionSet.colorSpace.fixedPrecision);
 
-    const hsToString = value =>
-        definitionSet.colorSpace.formatHs(
+    const hslToCss = value =>
+        definitionSet.colorSpace.formatHsl(
             normalize(value[0], 360),
             normalize(value[1], 100),
             normalize(value[2], 100),
@@ -48,7 +48,7 @@
 
     const rgbToCss = function (colorName, rgba, isComplementary) {
         if (isComplementary) colorName = `complementary to ${colorName}`;
-        const hsl = hsToString(conversionSet.rgbToHsl(rgba));
+        const hsl = hslToCss(conversionSet.rgbToHsl(rgba));
         const hex = rgbaHex(rgba);
         const normalizedRgba = [rgba[0], rgba[1], rgba[2], rgba[3]];
         normalizedRgba[3] = normalize(rgba[3], 1 / 255); // for formatRgba, to have alpha in [0..1], not %
@@ -62,5 +62,6 @@
 
     conversionSet.rgbToHsl = rgbToHsl;
     conversionSet.rgbToCss = rgbToCss;
+    conversionSet.hslToCss = hslToCss;
 
 })();

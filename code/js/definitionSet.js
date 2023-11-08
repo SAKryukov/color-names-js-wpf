@@ -2,9 +2,9 @@
 
 const definitionSet = {
 
-     metadata: {
+    metadata: {
         version: "1.1.0",
-       copyright: "Sergey A Kryukov, 2023",
+        copyright: "Sergey A Kryukov, 2023",
     },
 
     colorSpace: {
@@ -15,11 +15,11 @@ const definitionSet = {
         hex: 16,
         joinHexArray: data => `#${data.join("")}`,
         formatRgba: color =>
-            color.join(", "),
+            `rgb(${color.join(", ")})`,
         formatColor: (name, hex, rgb, hsl) =>
-            `${name}: ${hex.toUpperCase()}, rgb(${rgb}), hsl(${hsl})`,
-        formatHs: (h, s, value, a) =>
-            `${h}, ${s}%, ${value}%, ${a}%`,
+            `${name}: ${hex.toUpperCase()}, ${rgb}, ${hsl}`,
+        formatHsl: (h, s, value, a) =>
+            `hsl(${h}, ${s}%, ${value}%, ${a}%)`,
     },
 
     uiOpacity: { disabled: 0.6, normal: 1 },

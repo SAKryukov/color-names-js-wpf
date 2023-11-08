@@ -244,12 +244,8 @@ window.onload = () => {
             disable(true);
             for (const [_, value] of currentColorMapMetadata.map) {
                 const color = value.color;
-                const hsl = conversionSet.rgbToHsl(color);
-                hsl[0] *= 360;
-                hsl[0] = (hsl[0] + 180) % 360;
-                hsl[1] *= 100;
-                hsl[2] *= 100;
-                value.element.style.backgroundColor = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%, 100%)`;
+                value.element.style.backgroundColor = conversionSet.hslToCss(
+                    conversionSet.rgbToHsl(color, true));
             } //loop
                 setTimeout(() => {
                     for (const [_, value] of currentColorMapMetadata.map) {
