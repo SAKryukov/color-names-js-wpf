@@ -12,7 +12,7 @@ const conversionSet = (() => {
                 result.push(parseInt(match[0]));
         } while (match);
         if (result.length < 4)
-            result.push(0xff);
+            result.push(1);
         return result;
     }; //parseToRgba
 

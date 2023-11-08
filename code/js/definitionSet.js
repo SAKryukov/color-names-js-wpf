@@ -3,24 +3,23 @@
 const definitionSet = {
 
     metadata: {
-        version: "1.1.1",
+        version: "1.1.2",
         copyright: "Sergey A Kryukov, 2023",
     },
 
     colorSpace: {
-        fixedPrecision: 0,
         cssColorRegexp: /([0-9]{0,3}(,|\)))/g,
         colorComponentHexSize: 2,
         colorComponentHexPad: "0",
         hex: 16,
         joinHexArray: data => `#${data.join("")}`,
+        colorName: name => `complement to ${name}`,
         formatRgba: color =>
             `rgb(${color.join(", ")})`,
-        formatColor: (name, hex, rgb, hsl) =>
-            `${name}: ${hex.toUpperCase()}, ${rgb}, ${hsl}`,
         formatHsl: (h, s, value, a) =>
             `hsl(${h}, ${s}%, ${value}%, ${a}%)`,
-        formatComplementHslOutput: (colorName, hsl) => `complement to ${colorName}: ${hsl}`,
+        formatCssOutput: (name, hex, rgba, hsl) =>
+            `${name}: ${hex}, ${rgba}, ${hsl}`,
     },
 
     uiOpacity: { disabled: 0.6, normal: 1 },

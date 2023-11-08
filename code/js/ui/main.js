@@ -14,13 +14,11 @@ window.onload = () => {
         for (const [key, value] of colorMapMetadata.map) {
             const style = window.getComputedStyle(value);
             const color = conversionSet.parseToRgba(style.backgroundColor);
-            const complementaryHsvCssColor =
-                conversionSet.hslToCss(conversionSet.rgbToHsl(color, true));
+            const complementaryColor = conversionSet.complementRgb(color);            
             colorMapMetadata.map.set(key, {
                 element: value,
-                cssColor: style.backgroundColor,
-                complementaryHsvCssColor: complementaryHsvCssColor,
-                color: color });
+                color: color,
+                complementaryColor: complementaryColor });
         } //loop
         colorMapMetadata.isRemapped = true;
     }; //remap
@@ -53,6 +51,13 @@ window.onload = () => {
         elements.nameSet.radio.wpf.onchange = event => dataSourceHandler(event, wpfColorMapMetadata);
     })();
 
+    const getCssColor = mapValue => {
+        const color = elements.complementaryColors.checked
+            ? mapValue.complementaryColor
+            : mapValue.color
+        return conversionSet.rgbToCss(color);
+    } //getCssColor
+
     const select = (cell, doSelect) => {
         if (!cell) return;
         if (doSelect) {
@@ -60,13 +65,9 @@ window.onload = () => {
             if (currentColorMapMetadata.isRemapped) {
                 const mapValue = currentColorMapMetadata.map.get(cell.title);
                 const output = elements.complementaryColors.checked
-                    ? definitionSet.colorSpace.formatComplementHslOutput(
-                        cell.title,
-                        mapValue.complementaryHsvCssColor)
-                    : conversionSet.rgbToCss(cell.title, mapValue.color);
-                const cssColor = elements.complementaryColors.checked
-                    ? mapValue.complementaryHsvCssColor
-                    : mapValue.cssColor;
+                    ? conversionSet.outputCss(cell.title, mapValue.complementaryColor, true)
+                    : conversionSet.outputCss(cell.title, mapValue.color, false)
+                const cssColor = getCssColor(mapValue);
                 elements.colorResult.value = output;
                 if (elements.navigationBehavior.background.checked)
                     elements.sample.style.backgroundColor = cssColor;
@@ -177,9 +178,7 @@ window.onload = () => {
             cell.onpointerup = event => {
                 if (!event.ctrlKey) return;
                 const mapValue = currentColorMapMetadata.map.get(currentCell.title);
-                const cssColor = elements.complementaryColors.checked
-                    ? mapValue.complementaryHsvCssColor
-                    : mapValue.cssColor;
+                const cssColor = getCssColor(mapValue);
                 if (event.shiftKey)
                     elements.sample.style.color = cssColor;
                 else
@@ -191,6 +190,8 @@ window.onload = () => {
             const cellSample = document.createElement("div");
             if (mapIt)
                 colorMapMetadata.map.set(color, cellSample);
+            else
+                colorMapMetadata.map.get(color).element = cellSample;
             cellSample.style.backgroundColor = color;
             cellContent.appendChild(cellSample);
             cellContent.appendChild(label);
@@ -234,8 +235,6 @@ window.onload = () => {
 
     sortingOrder.setup(elements.sort, (sort, reverse) => {
         currentColorMapMetadata.orderIndex = elements.sort.selectedIndex;
-        currentColorMapMetadata.map = new Map();
-        currentColorMapMetadata.isRemapped = false;
         orderSet.sort(currentColorMapMetadata, sort, reverse);
         populate(currentColorMapMetadata);
         setTimeout(() => {
@@ -256,10 +255,12 @@ window.onload = () => {
         }; //disable
         if (event.target.checked) {            
             for (const [_, value] of currentColorMapMetadata.map)
-                value.element.style.backgroundColor = value.complementaryHsvCssColor;
+                value.element.style.backgroundColor =
+                    conversionSet.rgbToCss(value.complementaryColor);
         } else {
             for (const [_, value] of currentColorMapMetadata.map)
-                value.element.style.backgroundColor = value.cssColor;
+                value.element.style.backgroundColor =
+                    conversionSet.rgbToCss(value.color);
         } //if
         disable(event.target.checked);
         select(currentCell, true);
