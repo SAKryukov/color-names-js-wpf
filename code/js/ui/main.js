@@ -1,4 +1,4 @@
-    "use strict";
+"use strict";
 
 window.onload = () => {
 
@@ -34,18 +34,19 @@ window.onload = () => {
     (() => { //radio events:
         const dataSourceHandler = (event, colorMapMetadata) => {
             if (event.target.checked) {
+                colorMapMetadata.map = new Map();
+                colorMapMetadata.isRemapped = false;
                 populate(colorMapMetadata);
                 elements.sort.selectedIndex = colorMapMetadata.orderIndex;
                 initializeSelection(colorMapMetadata);
-                if (colorMapMetadata.isRemapped) return
-                const remapPromise = new Promise(resolve => resolve(colorMapMetadata));
-                remapPromise.then(metadata => {
-                    remap(metadata);
+                if (colorMapMetadata.isRemapped) return;
+                setTimeout(() => {
+                    remap(colorMapMetadata);
                 });
             } //if
         }; //dataSourceHandler
-        elements.radio.css.onchange = event => dataSourceHandler(event, cssColorMapMetadata);
-        elements.radio.wpf.onchange = event => dataSourceHandler(event, wpfColorMapMetadata);
+        elements.nameSet.radio.css.onchange = event => dataSourceHandler(event, cssColorMapMetadata);
+        elements.nameSet.radio.wpf.onchange = event => dataSourceHandler(event, wpfColorMapMetadata);
     })();
 
     const select = (cell, doSelect) => {
@@ -218,19 +219,26 @@ window.onload = () => {
     populate(cssColorMapMetadata);
 
     sortingOrder.setup(elements.sort, (sort, reverse) => {
-        orderSet.sort(currentColorMapMetadata, sort, reverse);
-        populate(currentColorMapMetadata);
         currentColorMapMetadata.orderIndex = elements.sort.selectedIndex;
+        orderSet.sort(currentColorMapMetadata, sort, reverse);
+        currentColorMapMetadata.map = new Map();
+        currentColorMapMetadata.isRemapped = false;
+        populate(currentColorMapMetadata);
+        setTimeout(() => {
+            remap(currentColorMapMetadata);
+        });
         initializeSelection(currentColorMapMetadata);
     }); //sortingOrder.setup
 
     elements.complementaryColors.onchange = event => {
         const disable = on => {
             elements.sort.disabled = on;
-            for (let index in elements.radio)
-                elements.radio[index].disabled = on;
-            for (let element of [elements.radio.labelCss, elements.radio.labelWpf, elements.sort])
-            element.style.opacity = on ? definitionSet.uiOpacity.disabled : definitionSet.uiOpacity.normal;
+            for (let index in elements.nameSet.radio)
+                elements.nameSet.radio[index].disabled = on;
+            for (let index in elements.nameSet.labels)
+                elements.nameSet.labels[index].style.opacity = on
+                    ? definitionSet.uiOpacity.disabled
+                    : definitionSet.uiOpacity.normal;
         }; //disable
         if (event.target.checked) {
             disable(true);
@@ -243,34 +251,32 @@ window.onload = () => {
                 hsl[2] *= 100;
                 value.element.style.backgroundColor = `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%, 100%)`;
             } //loop
-            setTimeout(() => {
-                for (const [_, value] of currentColorMapMetadata.map) {
-                    const style = window.getComputedStyle(value.element);
-                    value.color = conversionSet.parseToRgba(style.backgroundColor);
-                } //loop
-                select(currentCell, true);
-            });
+                setTimeout(() => {
+                    for (const [_, value] of currentColorMapMetadata.map) {
+                        const style = window.getComputedStyle(value.element);
+                        value.color = conversionSet.parseToRgba(style.backgroundColor);
+                    } //loop    
+                    select(currentCell, true);    
+                });
         } else {
             currentColorMapMetadata.isRemapped = false;
             currentColorMapMetadata.map.clear();
             populate(currentColorMapMetadata);
             elements.sort.selectedIndex = currentColorMapMetadata.orderIndex;
             initializeSelection(currentColorMapMetadata);
-            const remapPromise = new Promise(resolve => resolve(currentColorMapMetadata));
-            remapPromise.then(metadata => {
-                remap(metadata);
+            setTimeout(() => {
+                remap(currentColorMapMetadata);
                 select(currentCell, true);
-            disable(false);
+                disable(false);
             });
         } //if
     }; //elements.complementaryColors.onchange
 
     elements.table.tabIndex = 0;
-    const focusPromise = new Promise(resolve => resolve(elements.table));
-    focusPromise.then(element => {
+    setTimeout(() => {
         remap(cssColorMapMetadata);
         select(currentCell, true);
-        element?.focus();
+        elements.table.focus();
     });
 
 }; //window.onload

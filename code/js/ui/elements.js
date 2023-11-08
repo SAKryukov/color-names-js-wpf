@@ -4,11 +4,15 @@ const getElements = () => {
 
     const elementSet = {
         table: document.querySelector("main table"),
-        radio: {
-            css: document.querySelector("#css"),
-            wpf: document.querySelector("#wpf"),
-            labelCss: document.querySelector("#label-css"),
-            labelWpf: document.querySelector("#label-wpf"),
+        nameSet: {
+            radio: {
+                css: document.querySelector("#css"),
+                wpf: document.querySelector("#wpf"),   
+            },
+            labels: {
+                labelCss: document.querySelector("#label-css"),
+                labelWpf: document.querySelector("#label-wpf"),    
+            },
         },
         complementaryColors: document.querySelector("#complementary-colors"),
         install: document.querySelector("footer button"),
