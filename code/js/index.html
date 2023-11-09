@@ -28,6 +28,12 @@
                 --color-label-disabled: red;
                 --color-bottom: hsl(29, 78%, 84%);
                 --color-border: hsl(29, 78%, 27%);
+                --color-selection-outline: hsl(330, 90%, 47%, 100%);
+                --color-selection-blur: hsl(330, 90%, 47%, 8%);
+                --color-selection-outline-blur: hsl(330, 90%, 47%, 16%);
+                --color-select: aliceBlue;
+                --color-select-outline: navy;
+                --color-check-accent: dodgerBlue;
             }
             * { padding: 0; margin: 0; box-sizing: border-box; font-family: sans-serif; user-select: none; }
             html, body { height: 100%; }        
@@ -38,14 +44,19 @@
             footer { background-color:  var(--color-bottom);}
             header, footer, main { padding: var(--padding); }
             header p { display: flex; flex-direction: row; align-items: center; }
-            header p select { margin-left: var(--deltaX); font-size: 100%; padding-left: var(--padding-horizontal); padding-right: var(--padding-horizontal); }
+            header p select { margin-left: var(--deltaX); font-size: 100%; padding-left: var(--padding-horizontal); padding-right: var(--padding-horizontal); border-radius: 5px 5px 0 0;}
+            header p select:focus { background-color: var(--color-select); outline: 2.3px solid var(--color-select-outline); }
             header label:not(:first-of-type) { margin-left: var(--deltaX); }
             footer { display: flex; flex-direction: row; justify-content: space-between;  align-items: center; }
             footer button { padding: var(--padding-button); border-radius: 12px; border: solid 1px gray; color: var(--color-border); }
             footer button:focus { outline: var(--color-border) solid; outline-offset: -3px; }
-            footer button { display: none; } /* reserved for PWA */
+            footer button { display: none; } /* install PWA */
             main { border-top: solid thin var(--color-border); border-bottom: solid thin var(--color-border); }
-            main > section { margin-top: var(--margin-Y); font-size: 160%; padding: var(--padding); overflow: hidden; }
+            main > section {
+                margin-top: var(--margin-Y);
+                font-size: 160%; padding: var(--padding); overflow: hidden;
+                border-radius: 0.4em;
+            }
             main > p { margin-top: var(--margin-Y); }
             table, table:focus { outline: none; }
             select { border: none; outline: solid 1px gray; outline-offset: -1px; }
@@ -58,12 +69,15 @@
             aside { margin-bottom: 1em; }
             header > p:not(first-of-type), main > section, main > p, table
                 { margin-top: var(--margin-Y); }
+            input[type=checkbox] { accent-color: var(--color-check-accent); }
             /* cell */
             td {
                 padding-left: var(--margin-X-small); padding-right: var(--margin-X-small);
                 white-space: nowrap;
             }
-            td.selected { outline: 3px dotted crimson; outline-offset: -3; }
+            td.selected { outline: 3px dotted; outline-offset: -3; }
+            table:not(:focus) td.selected { outline-style: solid; outline-color: var(--color-selection-outline-blur); background-color: var(--color-selection-blur); }
+            table:focus td.selected { outline-color: var(--color-selection-outline); }
             td > div *, td > div { vertical-align: middle; pointer-events: none; }
             td > div > div { width: 1em; height: 1em; display: inline-block; border: solid thin black; }
             span { margin-left: var(--margin-X-small); }
