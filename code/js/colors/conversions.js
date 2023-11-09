@@ -92,8 +92,8 @@
     const outputCss = function(colorName, rgba, isComplementary) {
         return definitionSet.colorSpace.formatCssOutput(
             isComplementary
-                ? colorName
-                : definitionSet.colorSpace.colorName(colorName),
+                ? definitionSet.colorSpace.colorName(colorName)
+                : colorName,
             rgbaToHex(rgba),
             rgbToCss(rgba),
             hslToCss(this.rgbToHsl(rgba))    
