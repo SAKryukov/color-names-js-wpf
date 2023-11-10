@@ -4,7 +4,7 @@ A convenient software development reference and tool
 
 For the definitions to include in an application, see [JavaScript code](./code/js/names/).
 
-### [Run the application online](https://SAKryukov.GitHub.io/colors-names-js-wpf/code/js)
+### [Run the application online](https://SAKryukov.GitHub.io/color-names-js-wpf/code/js)
 
 ## Features:
 
