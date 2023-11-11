@@ -1,3 +1,11 @@
+/*
+Color Names
+
+Copyright (c) 2023 by Sergey A Kryukov
+http://www.SAKryukov.org
+http://www.codeproject.com/Members/SAKryukov
+*/
+
 namespace SA {
     using Console = System.Console;
     using System.Reflection;

@@ -1,5 +1,5 @@
 /*
-HTML Menu
+Color Names
 
 Copyright (c) 2023 by Sergey A Kryukov
 http://www.SAKryukov.org
