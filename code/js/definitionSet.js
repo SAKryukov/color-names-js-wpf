@@ -11,8 +11,8 @@ http://www.codeproject.com/Members/SAKryukov
 const definitionSet = {
 
     metadata: {
-        version: "1.2.0",
-        copyright: "Sergey A Kryukov, 2023",
+        version: "1.3.0",
+        copyright: "Sergey A Kryukov, 2023-2025",
     },
 
     colorSpace: {
